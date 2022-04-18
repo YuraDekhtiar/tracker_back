@@ -3,12 +3,18 @@ const { router } = require('./routes/index');
 const cors = require('koa-cors');
 const bodyParser = require('koa-bodyparser');
 
+const errorHandler = require('./middleware/error.middleware');
+
+
 const PORT = 3000;
 
 const app = new Koa();
+app.use(errorHandler);
 app.use(bodyParser());
 app.use(cors());
 app.use(router.routes());
+
+
 
 app.use(async (ctx, next) => {
     try {

@@ -1,5 +1,9 @@
 const Router = require('koa-router');
-const router = new Router();
+const router = new Router({
+    prefix: '/api'
+});
+const trackerController = require('../controllers/tracker.controller')
+const deviceController = require('../controllers/device.controller')
 
 router
     .get('/', async (ctx, next) => {
@@ -8,6 +12,10 @@ router
         ctx.body = routes;
         return next;
     })
+    .get('/locations', trackerController.locations)
+    .post('/locations', trackerController.addLocation)
+    .get('/devices/status', deviceController.status)
+    .get('/devices', deviceController.devices)
 
 module.exports = {
     router,

@@ -8,5 +8,6 @@ module.exports = async (ctx, next) => {
       status: 'failed',
       message: err.message || 'Internal server error',
     };
+    console.error(`ERROR -> ${err?.message}, PATH -> ${__filename}, METHOD -> get`);
   }
 };

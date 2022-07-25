@@ -1,4 +1,4 @@
-const DAL = require("../DAL");
+const DAL = require("../dal/location.dal");
 const {util} = require("../utils/index");
 
 module.exports = {

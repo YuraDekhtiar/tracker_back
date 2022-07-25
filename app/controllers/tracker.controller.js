@@ -1,10 +1,8 @@
 const tracker = require('../services/tracker.service')
 
-
 module.exports = {
     locations: async (ctx, next) => {
-        let id = 1
-        ctx.body = await tracker.getLastLocation(id)
+        ctx.body = await tracker.getLastLocation(ctx)
         ctx.status = 200;
         return next();
     },

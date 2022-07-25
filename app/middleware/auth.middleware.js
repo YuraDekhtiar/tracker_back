@@ -4,6 +4,8 @@ module.exports = async (ctx, next) => {
   await next();
   const accessToken = ctx.headers["x-access-token"];
 
+  console.log(ctx.headers)
+
   if (!accessToken) {
     ctx.throw(403);
   }

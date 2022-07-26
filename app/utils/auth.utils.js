@@ -27,7 +27,7 @@ function makeAccessToken ({id, username, email}) {
         email: email
     }
     const options = {
-        expiresIn: '10s'
+        expiresIn: '10m'
     }
     return jwt.sign(payload, tokenSecret, options);
 }

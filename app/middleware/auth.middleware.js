@@ -4,15 +4,14 @@ module.exports = async (ctx, next) => {
   await next();
   const accessToken = ctx.headers["x-access-token"];
 
-  console.log(ctx.headers)
-
   if (!accessToken) {
     ctx.throw(403);
   }
 
-  await jwt.verify(accessToken, tokenSecret, async (err) => {
+  await jwt.verify(accessToken, tokenSecret, async (err, decoded) => {
     if (err) {
       ctx.throw(401);
     }
   })
+
 }

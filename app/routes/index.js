@@ -20,6 +20,8 @@ publicRouter
     .post('/auth/logout', authController.logout)
     .get('/locations', trackerController.locations)
     .post('/locations', trackerController.addLocation)
+
+privateRouter
     .get('/devices/status', deviceController.status)
     .get('/devices', deviceController.devices)
     .get('/users', async (ctx, next) => {

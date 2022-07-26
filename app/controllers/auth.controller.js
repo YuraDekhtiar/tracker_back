@@ -25,8 +25,8 @@ module.exports = {
 
         return next();
     },
-    logout: (ctx, next) => {
-        ctx.body = 'logout';
+    logout: async (ctx, next) => {
+        ctx.body = await auth.logout(ctx.request.body.refreshToken || '');
         ctx.status = 200;
         return next();
     }

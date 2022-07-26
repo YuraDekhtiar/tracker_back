@@ -29,7 +29,7 @@ module.exports = {
         })
         return utils.updateToken(refreshToken);
     },
-    logout() {
-        return ''
+    async logout(refreshToken) {
+        return { logout_success: await redis.del(refreshToken) !== 0 };
     }
 }

@@ -11,6 +11,6 @@ module.exports = async (ctx, next) => {
       route: `< ${ctx.url} > not found`
     };
     console.error(`ERROR -> ${err.message}, PATH -> ${__filename}, METHOD -> get`);
-    console.log(err)
+    //console.log(err)
   }
 };

@@ -12,6 +12,6 @@ module.exports = async (ctx, next) => {
     if (err) {
       ctx.throw(401);
     }
+    ctx.userId = decoded.id;
   })
-
 }

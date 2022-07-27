@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const {tokenSecret, refreshTokenSecret, refreshTokens} = require("../config/auth.config");
+const {tokenSecret, refreshTokenSecret} = require("../config/auth.config");
 const redis = require("../db/redisDB");
 
 module.exports = {
@@ -20,11 +20,12 @@ module.exports = {
     }
 }
 
-function makeAccessToken ({id, username, email}) {
+function makeAccessToken ({id, username, email, role}) {
     const payload = {
         id: id,
         username: username,
-        email: email
+        email: email,
+        role: role
     }
     const options = {
         expiresIn: '10m'
@@ -32,11 +33,12 @@ function makeAccessToken ({id, username, email}) {
     return jwt.sign(payload, tokenSecret, options);
 }
 
-async function makeRefreshToken({id, username, email}) {
+async function makeRefreshToken({id, username, email, role}) {
     const payload = {
         id: id,
         username: username,
-        email: email
+        email: email,
+        role: role
     }
     const options = {
         expiresIn: '60d'

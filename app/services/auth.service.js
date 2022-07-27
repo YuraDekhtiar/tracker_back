@@ -6,15 +6,15 @@ const {refreshTokenSecret} = require("../config/auth.config");
 
 module.exports = {
     login: async (username, password) => {
-        const user = await authDal.getUsernameEmailPassword(username).then(r => r[0])
-        console.log(user)
+        const user = await authDal.getUsernameOrEmailPassword(username);
         if (!user) {
             return null
         } else if ((username === user.username || username === user.email) && password === user.password) {
             return {
                 id: user.id,
                 username: user.username,
-                email: user.email
+                email: user.email,
+                roles: await authDal.getRolesByUserId(user.id)
             }
         }
     },

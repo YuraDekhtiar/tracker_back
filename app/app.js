@@ -11,9 +11,7 @@ app.use(bodyParser());
 app.use(cors());
 app.use(errorHandler);
 app.use(publicRouter.routes());
-app.use(privateRouter.routes());
-
-
+app. use(privateRouter.routes());
 
 app.listen(PORT, () =>
     console.log(`server start at -> http://127.0.0.1:${PORT}`)

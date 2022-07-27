@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const {tokenSecret} = require("../config/auth.config.js");
+
 module.exports = async (ctx, next) => {
   await next();
   const accessToken = ctx.headers["x-access-token"];
@@ -12,6 +13,7 @@ module.exports = async (ctx, next) => {
     if (err) {
       ctx.throw(401);
     }
-    ctx.userId = decoded.id;
+    ctx.user = {...decoded}
+    console.log(ctx.user);
   })
 }

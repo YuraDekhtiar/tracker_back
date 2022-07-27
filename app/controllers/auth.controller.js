@@ -5,9 +5,9 @@ module.exports = {
     login: async (ctx, next) => {
         const {username, password} = ctx.request.body;
         const user = await auth.login(username, password);
-
         if(user) {
             ctx.body = {
+                ...user,
                 'accessToken' : utils.makeAccessToken(user),
                 'refreshToken' : await utils.makeRefreshToken(user)
             };

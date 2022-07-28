@@ -15,7 +15,7 @@ module.exports = {
         `);
     },
     getTimeLastConnection: async(id) => {
-        return await queryDB(`SELECT id, time_last_connection FROM devices WHERE id IN(?)`,
+        return await queryDB(`SELECT id, time_last_connection FROM devices WHERE id IN (?)`,
             [id.map(i => [i])]
             )
     },

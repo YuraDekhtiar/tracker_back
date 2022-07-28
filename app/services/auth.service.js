@@ -3,10 +3,21 @@ const utils = require("../utils/auth.utils");
 const redis = require("../db/redisDB");
 const jwt = require("jsonwebtoken");
 const {refreshTokenSecret} = require("../config/auth.config");
+const db = require("../models");
+const {Op} = require("sequelize");
+const User = db.user;
 
 module.exports = {
     login: async (username, password) => {
-        const user = await authDal.getUsernameOrEmailPassword(username);
+        const user = await User.findOne({
+            where: {
+                [Op.or]: [
+                    { username: username },
+                    { email: username }
+                ]
+            }
+        });
+
         if (!user) {
             return null
         } else if ((username === user.username || username === user.email) && password === user.password) {
@@ -14,7 +25,7 @@ module.exports = {
                 id: user.id,
                 username: user.username,
                 email: user.email,
-                roles: await authDal.getRolesByUserId(user.id)
+                roles: await authDal.findRolesByUserId(user.id)
             }
         }
     },

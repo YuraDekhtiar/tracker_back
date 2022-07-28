@@ -20,12 +20,12 @@ module.exports = {
     }
 }
 
-function makeAccessToken ({id, username, email, role}) {
+function makeAccessToken ({id, username, email, roles}) {
     const payload = {
         id: id,
         username: username,
         email: email,
-        role: role
+        roles: roles
     }
     const options = {
         expiresIn: '10m'
@@ -33,12 +33,12 @@ function makeAccessToken ({id, username, email, role}) {
     return jwt.sign(payload, tokenSecret, options);
 }
 
-async function makeRefreshToken({id, username, email, role}) {
+async function makeRefreshToken({id, username, email, roles}) {
     const payload = {
         id: id,
         username: username,
         email: email,
-        role: role
+        roles: roles
     }
     const options = {
         expiresIn: '60d'

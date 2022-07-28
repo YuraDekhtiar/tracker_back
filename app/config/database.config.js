@@ -3,6 +3,15 @@ module.exports = {
     port: 33060,
     user: 'admin',
     password: 'Password',
+    //database: 'tracker',
     database: 'tracker',
-};
+    databaseT: 'trackertest',
 
+    dialect: "mariadb",
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+    }
+};

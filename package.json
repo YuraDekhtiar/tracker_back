@@ -15,6 +15,7 @@
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
     "koa-cors": "^0.0.16",
+    "koa-roles": "^2.0.0",
     "koa-router": "^10.1.1",
     "mariadb": "^3.0.1",
     "mysql": "^2.18.1",

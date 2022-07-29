@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes, user, role) => {
         },
     }, { timestamps: false });
 
+
     user.belongsToMany(role, {
         through: User_role,
         foreignKey: 'user_id',
@@ -20,6 +21,7 @@ module.exports = (sequelize, DataTypes, user, role) => {
         foreignKey: 'role_id',
         otherKey: 'user_id'
     });
+
 
     return User_role;
 }

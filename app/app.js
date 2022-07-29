@@ -7,9 +7,9 @@ const errorHandler = require('./middleware/error.middleware');
 const { privateRouter, publicRouter } = require('./routes/index');
 
 const app = new Koa();
+app.use(errorHandler);
 app.use(bodyParser());
 app.use(cors());
-app.use(errorHandler);
 app.use(publicRouter.routes());
 app.use(privateRouter.routes());
 

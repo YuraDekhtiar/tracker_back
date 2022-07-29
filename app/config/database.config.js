@@ -4,7 +4,7 @@ module.exports = {
     user: 'admin',
     password: 'Password',
     //database: 'tracker',
-    database: 'tracker',
+    database: 'trackertest',
     databaseT: 'trackertest',
 
     dialect: "mariadb",

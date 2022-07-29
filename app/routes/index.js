@@ -3,8 +3,12 @@ const auth = require('../middleware/auth.middleware');
 const trackerController = require("../controllers/tracker.controller");
 const deviceController = require("../controllers/device.controller");
 const authController = require("../controllers/auth.controller");
-const publicRouter = new Router().prefix('/api');
-const privateRouter = new Router().use(auth).prefix('/api');
+const profileController = require("../controllers/profile.controller")
+const publicRouter = new Router().prefix("/api");
+const privateRouter = new Router().use(auth).prefix("/api");
+
+const onlyAdmin = require('../middleware/admin.middleware');
+
 
 publicRouter
     .get('/', async (ctx, next) => {
@@ -29,6 +33,8 @@ privateRouter
         ctx.status = 200;
         return next;
     })
+    .get('/profile', profileController.profile)
+
 
 
 

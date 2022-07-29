@@ -1,4 +1,3 @@
-const {authDal} = require("../dal");
 const utils = require("../utils/auth.utils");
 const redis = require("../db/redisDB");
 const jwt = require("jsonwebtoken");
@@ -6,6 +5,7 @@ const {refreshTokenSecret} = require("../config/auth.config");
 const db = require("../models");
 const {Op} = require("sequelize");
 const User = db.user;
+const Role = db.role;
 
 module.exports = {
     login: async (username, password) => {
@@ -15,7 +15,12 @@ module.exports = {
                     { username: username },
                     { email: username }
                 ]
-            }
+            },
+            include:[{
+                model:Role,
+                through: {attributes:[]},
+                attributes: ['name']
+            }]
         });
 
         if (!user) {
@@ -25,7 +30,7 @@ module.exports = {
                 id: user.id,
                 username: user.username,
                 email: user.email,
-                roles: await authDal.findRolesByUserId(user.id)
+                roles: user.roles.map(r => r.name)
             }
         }
     },

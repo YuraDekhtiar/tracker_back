@@ -18,5 +18,21 @@ module.exports = {
 
         ctx.status = 200;
         next();
+    },
+    users: async (ctx, next) => {
+        ctx.body = await User.findAll({
+            where: {
+                id: ctx.user.id
+            },
+            attributes: { exclude: ['password'] },
+            include:[{
+                model:Role,
+                through: {attributes:[]},
+                attributes: ['name'],
+            }]
+        })
+
+        ctx.status = 200;
+        next();
     }
 }

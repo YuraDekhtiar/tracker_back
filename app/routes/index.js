@@ -3,7 +3,7 @@ const auth = require('../middleware/auth.middleware');
 const trackerController = require("../controllers/tracker.controller");
 const deviceController = require("../controllers/device.controller");
 const authController = require("../controllers/auth.controller");
-const profileController = require("../controllers/profile.controller")
+const userController = require("../controllers/user.controller")
 const publicRouter = new Router().prefix("/api");
 const privateRouter = new Router().use(auth).prefix("/api");
 
@@ -28,12 +28,8 @@ publicRouter
 privateRouter
     .get('/devices/status', deviceController.status)
     .get('/devices', deviceController.devices)
-    .get('/users', async (ctx, next) => {
-        ctx.body = {user: 'Yura'};
-        ctx.status = 200;
-        return next;
-    })
-    .get('/profile', profileController.profile)
+    .get('/users', onlyAdmin, userController.users)
+    .get('/profile', userController.profile)
 
 
 

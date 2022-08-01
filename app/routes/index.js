@@ -30,6 +30,7 @@ privateRouter
     .get('/devices', deviceController.devices)
     .get('/users', onlyAdmin, userController.users)
     .get('/profile', userController.profile)
+    .post('/profile/change-pass', userController.changePassword)
 
 
 

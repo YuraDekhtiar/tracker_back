@@ -3,8 +3,8 @@ module.exports = {
     port: 33060,
     user: 'admin',
     password: 'Password',
-    //database: 'tracker',
-    database: 'trackertest',
+    database: 'tracker',
+    //database: 'trackertest',
     databaseT: 'trackertest',
 
     dialect: "mariadb",

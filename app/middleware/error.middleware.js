@@ -7,7 +7,7 @@ module.exports = async (ctx, next) => {
     ctx.status = err.status || 500;
     ctx.body = {
       status: err.status || 'failed',
-      message: err.message || 'Internal server error',
+      message: ctx.body?.message || err.message || 'Internal server error',
       route: `< ${ctx.url} > not found`
     };
     console.error(`ERROR -> ${err.message}, PATH -> ${__filename}, METHOD -> get`);

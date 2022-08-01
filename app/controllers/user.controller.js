@@ -22,9 +22,6 @@ module.exports = {
     },
     users: async (ctx, next) => {
         ctx.body = await User.findAll({
-            where: {
-                id: ctx.user.id
-            },
             attributes: { exclude: ['password'] },
             include:[{
                 model:Role,

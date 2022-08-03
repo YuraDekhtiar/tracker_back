@@ -29,6 +29,7 @@ privateRouter
     .get('/devices/status', deviceController.status)
     .get('/devices', deviceController.devices)
     .get('/users', onlyAdmin, userController.users)
+    .post('/users/create-new-user', onlyAdmin, userController.createNewUser)
     .get('/profile', userController.profile)
     .post('/profile/change-pass', userController.changePassword)
 

@@ -31,15 +31,10 @@ privateRouter
     //users
     .get('/users', onlyAdmin, userController.users)
     .post('/users/create-new-user', onlyAdmin, userController.createNewUser)
-    .delete('/users/delete', userController.deleteUser)
+    .delete('/users/delete', onlyAdmin, userController.deleteUser)
     // profile
     .get('/profile', userController.profile)
-    .post('/profile/change-pass', userController.changePassword)
-
-
-
-
-
+    .put('/profile/change-pass', userController.changePassword)
 
 module.exports = {
     publicRouter,

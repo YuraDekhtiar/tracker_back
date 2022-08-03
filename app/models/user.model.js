@@ -1,3 +1,4 @@
+const {DataTypes} = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define("user", {
         id: {
@@ -20,11 +21,12 @@ module.exports = (sequelize, DataTypes) => {
         },
         last_visit: {
             type: DataTypes.DATE,
-            defaultValue: DataTypes.TIMESTAMP
+            defaultValue: new Date()
         },
         date_registration: {
             type: DataTypes.DATE,
-            defaultValue: DataTypes.TIMESTAMP
+            defaultValue: new Date()
+
         }
     }, {
         indexes: [

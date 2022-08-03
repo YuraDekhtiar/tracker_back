@@ -31,7 +31,6 @@ module.exports = {
                 attributes: ['name'],
             }]
         })
-
         ctx.status = 200;
         next();
     },
@@ -95,6 +94,17 @@ module.exports = {
             }
         }
         ctx.status = 200;
+        next();
+    },
+    deleteUser: async (ctx, next) => {
+        if(!ctx.query.id) ctx.throw(404)
+        await User.destroy({
+            where: {
+                id: ctx.query.id
+            }
+        })
+        ctx.status = 200;
+
         next();
     }
 }

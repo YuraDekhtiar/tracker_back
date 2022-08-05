@@ -1,4 +1,5 @@
 const DAL = require("../dal/location.dal");
+const {INTEGER} = require("sequelize");
 
 module.exports = {
     getAllLocation: () => DAL.getAllLocation(),

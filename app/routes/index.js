@@ -47,7 +47,7 @@ privateRouter
 
 
 
-    .post('/device/locations', trackerController.addLocation)
+    .post('/device/locations', validation(schemes.location), trackerController.addLocation)
 
     //users
     .get('/users', onlyAdmin, userController.users)

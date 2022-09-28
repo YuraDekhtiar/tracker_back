@@ -1,11 +1,12 @@
 
 module.exports = (Joi) => Joi.object()
     .keys({
-        username: Joi.string()
+        login: Joi.number()
             .min(4)
-            .max(64)
+            .max(15)
             .required(),
         password: Joi.string()
             .min(8)
             .max(64)
+            .required(),
     });

@@ -26,7 +26,7 @@ publicRouter
     .get('/locations', trackerController.locations)
 
         // device routes
-    .post('/device-auth/login', authDeviceController.login)
+    .post('/device-auth/login', validation(schemes.loginDevice), authDeviceController.login)
     .post('/device-auth/logout', authDeviceController.logout)
     .post('/device-auth/refresh-token', authDeviceController.refreshToken)
 

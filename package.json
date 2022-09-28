@@ -19,6 +19,8 @@
     "koa-router": "^10.1.1",
     "mariadb": "^3.0.1",
     "mysql": "^2.18.1",
+    "nodaemon": "^0.0.5",
+    "nodemon": "^2.0.19",
     "redis": "^4.2.0",
     "sequelize": "^6.21.3"
   },

@@ -2,12 +2,16 @@ const Router = require('koa-router');
 const auth = require('../middleware/auth.middleware');
 const trackerController = require("../controllers/tracker.controller");
 const deviceController = require("../controllers/device.controller");
+const authDeviceController = require("../controllers/auth.device.controller");
 const authController = require("../controllers/auth.controller");
 const userController = require("../controllers/user.controller")
 const publicRouter = new Router().prefix("/api");
 const privateRouter = new Router().use(auth).prefix("/api");
 
 const onlyAdmin = require('../middleware/admin.middleware');
+
+const db = require("../models");
+const Device = db.device;
 
 
 publicRouter
@@ -23,11 +27,30 @@ publicRouter
     .post('/auth/refresh-token', authController.refreshToken)
     .post('/auth/logout', authController.logout)
     .get('/locations', trackerController.locations)
-    .post('/locations', trackerController.addLocation)
+
+        // device routes
+    .post('/device-auth/login', authDeviceController.login)
+    .post('/device-auth/logout', authDeviceController.logout)
+    .post('/device-auth/refresh-token', authDeviceController.refreshToken)
+
 
 privateRouter
     .get('/devices/status', deviceController.status)
+    .get('/device/status1', async(ctx, next) => {
+        ctx.body = {
+                "id": 1,
+                "login": 123,
+                "name": null,
+                "access_token": "1",
+                "refresh_token": "2"
+
+        }
+        ctx.status = 200;
+        next();
+    })
     .get('/devices', deviceController.devices)
+    .post('/device/locations', trackerController.addLocation)
+
     //users
     .get('/users', onlyAdmin, userController.users)
     .post('/users/create-new-user', onlyAdmin, userController.createNewUser)

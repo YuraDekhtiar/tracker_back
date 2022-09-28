@@ -1,4 +1,5 @@
 const deviceService = require("../services/device.service");
+
 module.exports = {
     devices: async (ctx, next) => {
         ctx.body = await deviceService.getDevices(ctx);
@@ -9,7 +10,5 @@ module.exports = {
         ctx.body = await deviceService.getDeviceStatus(ctx);
         ctx.status = 200;
         next();
-    },
-
-
+    }
 }

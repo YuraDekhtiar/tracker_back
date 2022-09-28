@@ -23,6 +23,6 @@ module.exports = {
         return await queryDB(`UPDATE devices SET time_last_connection = current_timestamp() WHERE id = ${id}`)
     },
     getAllDevices: async () => {
-        return await queryDB(`SELECT id, device_login, name, time_last_connection FROM devices`)
+        return await queryDB(`SELECT id, login, name, time_last_connection FROM devices`)
     }
 }

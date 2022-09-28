@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             allowNull: false
         },
-        device_login: {
+        login: {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false
         },
@@ -22,17 +22,27 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+        },
+        refresh_token: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            defaultValue: "null"
         }
     }, {
         indexes: [
             {
                 unique: true,
-                fields: ['device_login'],
+                fields: ['login'],
             },
             {
                 index: 'true',
                 fields: ['id']
             },
+            {
+                index: 'true',
+                fields: ['refresh_token']
+
+            }
         ],
         timestamps: false
     });

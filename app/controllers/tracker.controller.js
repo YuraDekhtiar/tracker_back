@@ -7,8 +7,8 @@ module.exports = {
         return next();
     },
     addLocation: async (ctx, next) => {
-        console.log(ctx.request.body)
-        ctx.body = await tracker.addLocation(ctx.request.body)
+        await tracker.addLocation({id: ctx.user.id, ...ctx.request.body})
+        ctx.body = "success"
         ctx.status = 200;
         return next();
     },

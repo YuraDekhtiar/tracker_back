@@ -8,13 +8,13 @@ module.exports = {
         if(user) {
             ctx.body = {
                 ...user,
-                'accessToken' : utils.makeAccessToken(user),
-                'refreshToken' : await utils.makeRefreshToken(user)
+                accessToken : utils.makeAccessToken(user),
+                refreshToken : await utils.makeRefreshToken(user)
             };
             ctx.status = 200;
         } else {
-            ctx.body = 'Username or password incorrect';
-            ctx.status = 403;
+            ctx.body = {message: 'Username or password incorrect' };
+            ctx.throw(403)
         }
         return next();
     },

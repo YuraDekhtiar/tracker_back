@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const {tokenSecret} = require("../config/auth.config.js");
 
-
 module.exports = async (ctx, next) => {
   const accessToken = ctx.headers["x-access-token"];
   if (!accessToken) {

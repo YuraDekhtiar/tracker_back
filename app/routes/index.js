@@ -21,8 +21,11 @@ publicRouter
         return next;
     })
     .post('/auth/login',  validation(schemes.login),  authController.login)
-    .post('/auth/refresh-token', authController.refreshToken)
-    .post('/auth/logout', authController.logout)
+    .post('/auth/refresh-token', validation(schemes.token), authController.refreshToken)
+    .post('/auth/logout', validation(schemes.token), authController.logout)
+
+
+
     .get('/locations', trackerController.locations)
 
         // device routes

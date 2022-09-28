@@ -16,7 +16,6 @@ app.use(privateRouter.routes());
 // database
 db.sequelize.sync().then(() => console.log(`Synchronization database success`));
 
-
 app.listen(PORT, () =>
     console.log(`server start at -> http://127.0.0.1:${PORT}`)
 );

@@ -7,12 +7,9 @@ const authController = require("../controllers/auth.controller");
 const userController = require("../controllers/user.controller")
 const publicRouter = new Router().prefix("/api");
 const privateRouter = new Router().use(auth).prefix("/api");
-
 const onlyAdmin = require('../middleware/admin.middleware');
-
-const db = require("../models");
-const Device = db.device;
-
+const validation = require('../middleware/validation.middleware');
+const schemes = require('../validations');
 
 publicRouter
     .get('/', async (ctx, next) => {
@@ -23,7 +20,7 @@ publicRouter
         ctx.status = 200;
         return next;
     })
-    .post('/auth/login', authController.login)
+    .post('/auth/login',  validation(schemes.login),  authController.login)
     .post('/auth/refresh-token', authController.refreshToken)
     .post('/auth/logout', authController.logout)
     .get('/locations', trackerController.locations)
@@ -32,7 +29,6 @@ publicRouter
     .post('/device-auth/login', authDeviceController.login)
     .post('/device-auth/logout', authDeviceController.logout)
     .post('/device-auth/refresh-token', authDeviceController.refreshToken)
-
 
 privateRouter
     .get('/devices/status', deviceController.status)

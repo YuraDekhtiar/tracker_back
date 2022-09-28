@@ -2,8 +2,8 @@
 module.exports = (Joi) => Joi.object()
     .keys({
         login: Joi.number()
-            .min(4)
-            .max(15)
+            .min(1)
+            .max(999999999999999)
             .required(),
         password: Joi.string()
             .min(8)

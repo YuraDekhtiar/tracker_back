@@ -20,18 +20,14 @@ publicRouter
         ctx.status = 200;
         return next;
     })
-    .post('/auth/login',  validation(schemes.login),  authController.login)
+    .post('/auth/login', validation(schemes.login), authController.login)
     .post('/auth/refresh-token', validation(schemes.token), authController.refreshToken)
     .post('/auth/logout', validation(schemes.token), authController.logout)
-
-
-
     .get('/locations', trackerController.locations)
-
         // device routes
     .post('/device-auth/login', validation(schemes.loginDevice), authDeviceController.login)
-    .post('/device-auth/logout', authDeviceController.logout)
-    .post('/device-auth/refresh-token', authDeviceController.refreshToken)
+    .post('/device-auth/logout', validation(schemes.token), authDeviceController.logout)
+    .post('/device-auth/refresh-token', validation(schemes.token), authDeviceController.refreshToken)
 
 privateRouter
     .get('/devices/status', deviceController.status)
@@ -48,6 +44,9 @@ privateRouter
         next();
     })
     .get('/devices', deviceController.devices)
+
+
+
     .post('/device/locations', trackerController.addLocation)
 
     //users

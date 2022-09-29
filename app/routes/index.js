@@ -51,7 +51,7 @@ privateRouter
 
     //users
     .get('/users', onlyAdmin, userController.users)
-    .post('/users/create-new-user', onlyAdmin, userController.createNewUser)
+    .post('/users/create-new-user', validation(schemes.createNewUser), onlyAdmin, userController.createNewUser)
     .delete('/users/delete', onlyAdmin, userController.deleteUser)
     // profile
     .get('/profile', userController.profile)

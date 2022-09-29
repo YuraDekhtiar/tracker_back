@@ -12,7 +12,7 @@ module.exports = {
 
 function makeAccessToken (payload) {
     const options = {
-        expiresIn: '10s'
+        expiresIn: '10m'
     }
     return jwt.sign(payload, tokenSecret, options);
 }

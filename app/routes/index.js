@@ -20,17 +20,17 @@ publicRouter
         ctx.status = 200;
         return next;
     })
+        // auth
     .post('/auth/login', validation(schemes.login), authController.login)
     .post('/auth/refresh-token', validation(schemes.token), authController.refreshToken)
     .post('/auth/logout', validation(schemes.token), authController.logout)
-    .get('/locations', trackerController.locations)
-        // device routes
+        // device-auth
     .post('/device-auth/login', validation(schemes.loginDevice), authDeviceController.login)
     .post('/device-auth/logout', validation(schemes.token), authDeviceController.logout)
     .post('/device-auth/refresh-token', validation(schemes.token), authDeviceController.refreshToken)
 
 privateRouter
-    .get('/devices/status', deviceController.status)
+    // test
     .get('/device/status1', async(ctx, next) => {
         ctx.body = {
                 "id": 1,
@@ -43,20 +43,23 @@ privateRouter
         ctx.status = 200;
         next();
     })
+
+    // locations
+    .get('/locations', validation(schemes.id, false), trackerController.locations)
+
+        // device
     .get('/devices', deviceController.devices)
-
-
-
+    .get('/devices/status', validation(schemes.id, false), deviceController.status)
     .post('/device/locations', validation(schemes.location), trackerController.addLocation)
 
-    //users
+        //users
     .get('/users', onlyAdmin, userController.users)
     .post('/users/create-new-user', validation(schemes.createNewUser), onlyAdmin, userController.createNewUser)
     .delete('/users/delete', validation(schemes.id, false), onlyAdmin, userController.deleteUser)
 
-    // profile
+        // profile
     .get('/profile', userController.profile)
-    .put('/profile/change-pass', userController.changePassword)
+    .put('/profile/change-pass', validation(schemes.changePassword), userController.changePassword)
 
 module.exports = {
     publicRouter,

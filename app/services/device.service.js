@@ -50,6 +50,9 @@ module.exports = {
             })
         })
     },
+
+    // переглянути для чого параметри
+    // передаються масивом
     getDeviceStatus: async (ctx) => {
         const id = util.toArray(ctx.query.id).map(item => {
             if (!Number.isNaN(Number.parseInt(item)))

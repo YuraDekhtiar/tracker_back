@@ -4,9 +4,7 @@ const {INTEGER} = require("sequelize");
 module.exports = {
     getAllLocation: () => DAL.getAllLocation(),
     getLastLocation: (ctx) => {
-        if (!Number.isNaN(Number.parseInt(ctx.query.id)))
-            return DAL.getLastLocation(ctx.query.id)
-        throw ctx.throw(500)
+        return DAL.getLastLocation(ctx.query.id)
     },
     addLocation: (data) => {
         return Promise.all([

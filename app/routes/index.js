@@ -52,10 +52,10 @@ privateRouter
     //users
     .get('/users', onlyAdmin, userController.users)
     .post('/users/create-new-user', validation(schemes.createNewUser), onlyAdmin, userController.createNewUser)
-    .delete('/users/delete', validation(schemes.deleteUser, false), onlyAdmin, userController.deleteUser)
+    .delete('/users/delete', validation(schemes.id, false), onlyAdmin, userController.deleteUser)
 
     // profile
-    .get('/profile', userController.profile)
+    .get('/profile', validation(schemes.id, false), userController.profile)
     .put('/profile/change-pass', userController.changePassword)
 
 module.exports = {

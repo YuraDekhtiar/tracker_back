@@ -7,7 +7,7 @@ schemes.loginDevice = require('./login_device.validations')(Joi)
 schemes.token = require('./token.validations')(Joi)
 schemes.location = require('./location.validations')(Joi)
 schemes.createNewUser = require('./create_new_user.validations')(Joi)
-schemes.deleteUser = require('./delete_user.validations')(Joi)
+schemes.id = require('./id.validations')(Joi)
 
 
 module.exports = schemes;

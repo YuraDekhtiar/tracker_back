@@ -1,3 +1,4 @@
+const {Sequelize} = require("sequelize");
 module.exports = {
     host: '195.238.180.33',
     port: 33060,
@@ -5,7 +6,7 @@ module.exports = {
     password: 'Password',
     //database: 'tracker',
     database: 'trackertest',
-    databaseT: 'trackertest',
+    databaseSequelize: 'trackertest',
 
     dialect: "mariadb",
     pool: {

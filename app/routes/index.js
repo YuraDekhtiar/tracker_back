@@ -51,6 +51,7 @@ privateRouter
     .get('/devices', deviceController.devices)
     .get('/devices/status', validation(schemes.id, false), deviceController.status)
     .post('/device/locations', validation(schemes.location), trackerController.addLocation)
+    .post('/device/add-device',  deviceController.addDevice)
 
         //users
     .get('/users', onlyAdmin, userController.users)

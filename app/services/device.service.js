@@ -2,7 +2,6 @@ const DAL = require("../dal/location.dal");
 const {util} = require("../utils/index");
 const authUtil = require("../utils/auth.new.utils");
 const db = require("../models");
-const auth = require("./auth.service");
 const Device = db.device;
 
 module.exports = {
@@ -50,6 +49,13 @@ module.exports = {
             })
         })
     },
+    addDevice: async (login, name, password) => {
+        return await Device.create({
+            login: login,
+            name: name,
+            password: password
+        })
+    },
 
     // переглянути для чого параметри
     // передаються масивом
@@ -82,7 +88,8 @@ async function createNewToken(device) {
         name: device.name
     }
     const refreshToken = authUtil.makeRefreshToken(payload);
-    await Device.update({refresh_token: refreshToken}, {
+    await Device.update({
+        refresh_token: refreshToken}, {
         where: {
             id: device.id
         }

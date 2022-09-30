@@ -2,8 +2,6 @@ const deviceService = require("../services/device.service");
 
 module.exports = {
     login: async (ctx, next) => {
-        console.log(ctx.headers)
-
         const {login, password} = ctx.request.body;
         const device = await deviceService.login(login, password)
 

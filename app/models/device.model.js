@@ -1,4 +1,4 @@
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes, track) => {
     return sequelize.define("device", {
         id: {
             type: DataTypes.INTEGER.UNSIGNED,
@@ -20,8 +20,8 @@ module.exports = (sequelize, DataTypes) => {
         },
         time_last_connection: {
             type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+            allowNull: true,
+            defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
         },
         refresh_token: {
             type: DataTypes.STRING,
@@ -45,5 +45,5 @@ module.exports = (sequelize, DataTypes) => {
             }
         ],
         timestamps: false
-    });
+    })//.hasMany(track, { onDelete: 'cascade' });
 }

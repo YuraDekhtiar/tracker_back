@@ -45,5 +45,5 @@ module.exports = (sequelize, DataTypes, track) => {
             }
         ],
         timestamps: false
-    })//.hasMany(track, { onDelete: 'cascade' });
+    });
 }

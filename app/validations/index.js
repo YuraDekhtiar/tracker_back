@@ -8,6 +8,8 @@ schemes.location = require('./location.validations')(Joi)
 schemes.createNewUser = require('./create_new_user.validations')(Joi)
 schemes.id = require('./id.validations')(Joi)
 schemes.changePassword = require('./change_password.validations')(Joi)
+schemes.device = require('./device.validations')(Joi)
+schemes.deviceEdit = require('./device_edit.validations')(Joi)
 
 module.exports = schemes;
 

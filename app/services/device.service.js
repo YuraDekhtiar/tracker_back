@@ -2,6 +2,7 @@ const DAL = require("../dal/location.dal");
 const {util} = require("../utils/index");
 const authUtil = require("../utils/auth.new.utils");
 const db = require("../models");
+const {Op} = require("sequelize");
 const Device = db.device;
 
 module.exports = {
@@ -49,12 +50,56 @@ module.exports = {
             })
         })
     },
-    addDevice: async (login, name, password) => {
+    addDevice: async (ctx) => {
+        const {login, name, password} = ctx.request.body
+        if(await isExistDeviceLogin(login)) {
+            ctx.body = {
+                message: "The login is already in use"
+            }
+            ctx.throw(409)
+        }
         return await Device.create({
             login: login,
             name: name,
             password: password
         })
+    },
+    updateDeviceById: async (ctx) => {
+        const {id, login, name, password} = ctx.request.body
+
+        const device = await Device.findOne({
+            where: {
+                id: {
+                    [Op.ne]: id
+                },
+                login: login,
+            }
+        })
+        console.log(device)
+        if(device) {
+            ctx.body = {
+                message: "The login is already in use"
+            }
+            ctx.throw(409)
+        }
+
+        let data = {
+            login: login,
+            name: name
+        }
+
+        if(password) {
+            data = {
+                ...data,
+                password: password
+            }
+        }
+
+        return Device.update(data, {
+            where: {
+                id: id
+                }
+        });
     },
 
     // переглянути для чого параметри
@@ -75,6 +120,14 @@ module.exports = {
             })
         })
     },
+}
+
+async function isExistDeviceLogin(login) {
+    return await Device.findOne({
+        where: {
+            login: login
+        }
+    })
 }
 
 function deviceStatus(time) {

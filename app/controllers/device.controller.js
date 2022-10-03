@@ -16,8 +16,19 @@ module.exports = {
                 id: id
             },
         })
+
         ctx.body = {
             device
+        }
+        ctx.status = 200;
+        next();
+    },
+    updateDeviceById: async (ctx, next) => {
+        const result = await deviceService.updateDeviceById(ctx);
+        if(result > 0) {
+            ctx.body = {
+                message: "Updated"
+            }
         }
         ctx.status = 200;
         next();
@@ -28,8 +39,7 @@ module.exports = {
         next();
     },
     addDevice: async (ctx, next) => {
-        const {login, name, password} = ctx.request.body
-        const device = await deviceService.addDevice(login, name, password)
+        const device = await deviceService.addDevice(ctx)
         ctx.body = {
             message: `Device was added`,
             device: {

@@ -49,10 +49,11 @@ privateRouter
 
         // device
     .get('/devices', deviceController.devices)
-    .get('/device', onlyAdmin, validation(schemes.id, false), deviceController.deviceById)
     .get('/devices/status', validation(schemes.id, false), deviceController.status)
+    .get('/device', onlyAdmin, validation(schemes.id, false), deviceController.deviceById)
     .post('/device/locations', validation(schemes.location), trackerController.addLocation)
-    .post('/device/add-device', onlyAdmin, deviceController.addDevice)
+    .put('/device/edit', onlyAdmin, validation(schemes.deviceEdit), deviceController.updateDeviceById)
+    .post('/device/add-device', onlyAdmin, validation(schemes.device), deviceController.addDevice)
     .delete('/device/delete', onlyAdmin, deviceController.deleteDevice)
 
         //users

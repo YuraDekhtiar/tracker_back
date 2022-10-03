@@ -4,7 +4,21 @@ const Device = db.device;
 
 module.exports = {
     devices: async (ctx, next) => {
-        ctx.body = await deviceService.getDevices(ctx);
+        ctx.body = await deviceService.getDevices();
+        ctx.status = 200;
+        next();
+    },
+    deviceById: async (ctx, next) => {
+        const {id} = ctx.query
+        const device = await Device.findOne({
+            attributes: { exclude: ['password', 'refresh_token'] },
+            where: {
+                id: id
+            },
+        })
+        ctx.body = {
+            device
+        }
         ctx.status = 200;
         next();
     },

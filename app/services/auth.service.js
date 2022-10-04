@@ -21,7 +21,7 @@ module.exports = {
                 through: {attributes:[]},
                 attributes: ['name']
             }]
-        });
+        })
 
         if (!user) {
             return null

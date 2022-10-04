@@ -3,7 +3,7 @@ module.exports = (schema, validationBody = true) => async (ctx, next) => {
     const { error } = schema.validate(validationBody ? ctx.request.body : ctx.query);
 
     if (error) {
-        console.log("validation.middleware: ")
+        console.log("validation.middlewares: ")
         console.log(error)
 
         ctx.body = error.details[0].message;

@@ -1,5 +1,5 @@
 const Router = require('koa-router');
-const auth = require('../middleware/auth.middleware');
+const auth = require('../middlewares/auth.middleware');
 const trackerController = require("../controllers/tracker.controller");
 const deviceController = require("../controllers/device.controller");
 const authDeviceController = require("../controllers/auth.device.controller");
@@ -7,8 +7,8 @@ const authController = require("../controllers/auth.controller");
 const userController = require("../controllers/user.controller")
 const publicRouter = new Router().prefix("/api");
 const privateRouter = new Router().use(auth).prefix("/api");
-const onlyAdmin = require('../middleware/admin.middleware');
-const validation = require('../middleware/validation.middleware');
+const onlyAdmin = require('../middlewares/admin.middleware');
+const validation = require('../middlewares/validation.middleware');
 const schemes = require('../validations');
 
 publicRouter

@@ -3,7 +3,7 @@ const { PORT } = require('./config/server.config.js')
 const cors = require('koa-cors');
 const bodyParser = require('koa-bodyparser');
 const db = require("./models");
-const errorHandler = require('./middleware/error.middleware');
+const errorHandler = require('./middlewares/error.middleware');
 const { privateRouter, publicRouter } = require('./routes/index');
 
 const app = new Koa();

@@ -3,7 +3,6 @@ const User = db.user;
 const Role = db.role
 const UserRole = db.userRole
 const profileService = require("../services/profile.service")
-const authService = require("../services/auth.service")
 const {Op} = require("sequelize");
 module.exports = {
     profile: async (ctx, next)  => {

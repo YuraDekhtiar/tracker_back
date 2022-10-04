@@ -4,6 +4,7 @@ const utils = require('../utils/auth.utils')
 module.exports = {
     login: async (ctx, next) => {
         const {username, password} = ctx.request.body;
+
         const user = await auth.login(username, password);
 
         if(user) {

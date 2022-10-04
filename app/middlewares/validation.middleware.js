@@ -10,5 +10,5 @@ module.exports = (schema, validationBody = true) => async (ctx, next) => {
         ctx.throw(422);
     }
 
-    return next()
+    return next();
 }

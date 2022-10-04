@@ -1,22 +1,16 @@
 const auth = require('../services/auth.service')
-const utils = require('../utils/auth.utils')
 
 module.exports = {
     login: async (ctx, next) => {
         const {username, password} = ctx.request.body;
-
         const user = await auth.login(username, password);
 
         if(user) {
-            ctx.body = {
-                ...user,
-                accessToken : utils.makeAccessToken(user),
-                refreshToken : await utils.makeRefreshToken(user)
-            };
+            ctx.body = user;
             ctx.status = 200;
         } else {
-            ctx.body = {message: 'Username or password incorrect' };
-            ctx.throw(403)
+            ctx.body = { message: 'Username or password incorrect' };
+            ctx.status = 403;
         }
         return next();
     },

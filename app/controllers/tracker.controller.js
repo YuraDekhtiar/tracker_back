@@ -8,7 +8,7 @@ module.exports = {
         return next();
     },
     addLocation: async (ctx, next) => {
-        const data = {id: ctx.user.id, ...ctx.request.body};
+        const data = {id: ctx.currentUser.id, ...ctx.request.body};
         const res = await tracker.addLocation(data)
 
         ctx.body = res.length

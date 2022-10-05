@@ -8,7 +8,7 @@ module.exports = {
     profile: async (ctx, next)  => {
         ctx.body = await User.findOne({
             where: {
-              id: ctx.user.id
+              id: ctx.currentUser.id
             },
             attributes: { exclude: ['password'] },
             include:[{
@@ -34,7 +34,7 @@ module.exports = {
         next();
     },
     changePassword: async (ctx, next) => {
-        const res = await profileService.changePassword(ctx.user.id, ctx.request.body.oldPassword, ctx.request.body.newPassword);
+        const res = await profileService.changePassword(ctx.currentUser.id, ctx.request.body.oldPassword, ctx.request.body.newPassword);
         if(!res)  {
             ctx.body = {
                 message: "Incorrect old password!"

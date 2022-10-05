@@ -21,7 +21,7 @@ module.exports = async (ctx, next) => {
       message: ctx.body?.message || err.message || "Internal server error",
       route: `< ${ctx.url} >`
     };
-    console.error(`ROUTE -> ${ctx.status}, ERROR -> ${err.message}, STATUS -> ${err.status}`);
+    console.error(`STATUS -> ${ctx.status}, MESSAGE -> ${err.message}, ROUTE -> ${ctx.url} `);
     console.log(err);
   }
 };

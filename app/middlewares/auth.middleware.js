@@ -11,7 +11,7 @@ module.exports = async (ctx, next) => {
     if (err) {
       ctx.throw(401);
     }
-    ctx.user = {...decoded}
+    ctx.currentUser = {...decoded}
   })
   await next();
 }

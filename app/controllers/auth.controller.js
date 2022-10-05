@@ -28,8 +28,10 @@ module.exports = {
         return next();
     },
     logout: async (ctx, next) => {
-        ctx.body = await auth.logout(ctx.request.body.refreshToken || '');
+        const {refreshToken} = ctx.request.body.refreshToken || '';
+        ctx.body = await auth.logout(refreshToken);
         ctx.status = 200;
+
         return next();
     }
 

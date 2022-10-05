@@ -22,8 +22,10 @@ module.exports = {
 
         if(!res?.[0] > 0)
             ctx.status = 400;
-        else
+        else {
+            ctx.body = "OK"
             ctx.status = 200;
+        }
 
         return next();
     },

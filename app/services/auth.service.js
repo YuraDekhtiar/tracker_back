@@ -22,7 +22,8 @@ module.exports = {
                 attributes: ['name']
             }]
         })
-        if ((username === user.username || username === user.email) && password === user.password) {
+
+        if ((username === user?.username || username === user?.email) && password === user?.password) {
             return {
                 id: user.id,
                 username: user.username,

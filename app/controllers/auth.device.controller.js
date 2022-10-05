@@ -30,7 +30,8 @@ module.exports = {
         return next();
     },
     refreshToken: async (ctx, next) => {
-        const res = await deviceService.refreshToken(ctx.request.body.refreshToken || '');
+        const {refreshToken} = ctx.request.body.refreshToken || '';
+        const res = await deviceService.refreshToken(refreshToken);
 
         if(res) {
             ctx.body = res;

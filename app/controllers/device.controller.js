@@ -6,7 +6,8 @@ module.exports = {
     devices: async (ctx, next) => {
         ctx.body = await deviceService.getDevices();
         ctx.status = 200;
-        next();
+
+        return next();
     },
     deviceById: async (ctx, next) => {
         const {id} = ctx.query
@@ -21,7 +22,8 @@ module.exports = {
             device
         }
         ctx.status = 200;
-        next();
+
+        return next();
     },
     updateDeviceById: async (ctx, next) => {
         const result = await deviceService.updateDeviceById(ctx);
@@ -36,7 +38,7 @@ module.exports = {
     status: async (ctx, next) => {
         ctx.body = await deviceService.getDeviceStatus(ctx);
         ctx.status = 200;
-        next();
+        return next();
     },
     addDevice: async (ctx, next) => {
         const device = await deviceService.addDevice(ctx)
@@ -47,7 +49,7 @@ module.exports = {
             }
         }
         ctx.status = 200;
-        next();
+        return next();
     },
     deleteDevice: async (ctx, next) => {
         if(!ctx.query.id) ctx.throw(404)
@@ -57,6 +59,6 @@ module.exports = {
             }
         })
         ctx.status = 200;
-        next();
+        return next();
     }
 }

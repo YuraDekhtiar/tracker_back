@@ -18,7 +18,8 @@ module.exports = {
         return next();
     },
     logout: async (ctx, next) => {
-        const res = await deviceService.logout(ctx.request.body.refreshToken || '');
+        const refreshToken = ctx.request.body.refreshToken || '';
+        const res = await deviceService.logout(refreshToken);
 
         if(!res?.[0] > 0)
             ctx.status = 400;
@@ -30,7 +31,7 @@ module.exports = {
         return next();
     },
     refreshToken: async (ctx, next) => {
-        const {refreshToken} = ctx.request.body.refreshToken || '';
+        const refreshToken = ctx.request.body.refreshToken || '';
         const res = await deviceService.refreshToken(refreshToken);
 
         if(res) {

@@ -46,7 +46,7 @@ privateRouter
 
     // locations
     .get('/locations', validation(schemes.id, false), trackerController.locations)
-
+// refactoring ended
         // device
     .get('/devices', deviceController.devices)
     .get('/devices/status', validation(schemes.id, false), deviceController.status)

@@ -21,16 +21,19 @@ module.exports = {
                 through: {attributes:[]},
                 attributes: ['name']
             }]
-        })
+        });
 
         if ((username === user?.username || username === user?.email) && password === user?.password) {
-            return {
+            const payload = {
                 id: user.id,
                 username: user.username,
                 email: user.email,
                 roles: user.roles.map(r => r.name),
-                accessToken: utils.makeAccessToken(user),
-                refreshToken: await utils.makeRefreshToken(user)
+            }
+            return {
+                ...payload,
+                accessToken: utils.makeAccessToken(payload),
+                refreshToken: await utils.makeRefreshToken(payload)
             };
         }
         return null;

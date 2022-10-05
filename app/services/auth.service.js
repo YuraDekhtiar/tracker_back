@@ -36,11 +36,11 @@ module.exports = {
     },
     refreshToken: async (ctx, refreshToken) => {
         if (!await redis.get(refreshToken)) {
-            ctx.throw(401);
+            return null;
         }
         jwt.verify(refreshToken, refreshTokenSecret, (err) => {
             if (err) {
-                ctx.throw(401);
+                throw new Error("Refresh token invalid signature")
             }
         })
         return utils.updateToken(refreshToken);

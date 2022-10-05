@@ -16,8 +16,14 @@ module.exports = {
     },
     refreshToken: async (ctx, next) => {
         const refreshToken = ctx.request.body.refreshToken || '';
-        ctx.body = await auth.refreshToken(ctx, refreshToken);
-        ctx.status = 200;
+        const data = await auth.refreshToken(ctx, refreshToken);
+
+        if(data) {
+            ctx.body = data;
+            ctx.status = 200;
+        } else {
+            ctx.status = 403;
+        }
 
         return next();
     },

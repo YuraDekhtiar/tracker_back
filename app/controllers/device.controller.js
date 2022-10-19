@@ -1,6 +1,4 @@
 const deviceService = require("../services/device.service");
-const db = require("../models");
-const Device = db.device;
 
 module.exports = {
     devices: async (ctx, next) => {
@@ -11,18 +9,15 @@ module.exports = {
     },
     deviceById: async (ctx, next) => {
         const {id} = ctx.query
-        const device = await Device.findOne({
-            attributes: { exclude: ['password', 'refresh_token'] },
-            where: {
-                id: id
-            },
-        })
+        const device = await deviceService.getDeviceById(id);
 
-        ctx.body = {
-            device
+        if(device) {
+            ctx.body = device;
+            ctx.status = 200;
+        } else {
+            ctx.body = { message: 'Device not found' };
+            ctx.status = 404;
         }
-        ctx.status = 200;
-
         return next();
     },
     updateDeviceById: async (ctx, next) => {
@@ -49,16 +44,15 @@ module.exports = {
             }
         }
         ctx.status = 200;
+
         return next();
     },
     deleteDevice: async (ctx, next) => {
-        if(!ctx.query.id) ctx.throw(404)
-        await Device.destroy({
-            where: {
-                id: ctx.query.id
-            }
-        })
+        const {id} = ctx.query;
+
+        ctx.body = await deviceService.deleteDeviceById(id);
         ctx.status = 200;
+
         return next();
     }
 }

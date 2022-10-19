@@ -50,19 +50,27 @@ module.exports = {
             })
         })
     },
+    getDeviceById: async () => {
+        return await Device.findOne({
+            attributes: { exclude: ['password', 'refresh_token'] },
+            where: {
+                id: id
+            },
+        })
+    },
     addDevice: async (ctx) => {
-        const {login, name, password} = ctx.request.body
+        const {login, name, password} = ctx.request.body;
         if(await isExistDeviceLogin(login)) {
             ctx.body = {
                 message: "The login is already in use"
             }
-            ctx.throw(409)
+            ctx.throw(409);
         }
         return await Device.create({
             login: login,
             name: name,
             password: password
-        })
+        });
     },
     updateDeviceById: async (ctx) => {
         const {id, login, name, password} = ctx.request.body
@@ -101,7 +109,13 @@ module.exports = {
                 }
         });
     },
-
+    deleteDeviceById: async (id) => {
+        return await Device.destroy({
+            where: {
+                id: id
+            }
+        })
+    },
     // переглянути для чого параметри
     // передаються масивом
     getDeviceStatus: async (ctx) => {
@@ -120,6 +134,7 @@ module.exports = {
             })
         })
     },
+
 }
 
 async function isExistDeviceLogin(login) {

@@ -46,7 +46,7 @@ privateRouter
 
     // locations
     .get('/locations', validation(schemes.id, false), trackerController.locations)
-// refactoring ended
+
         // device
     .get('/devices', deviceController.devices)
     .get('/devices/status', validation(schemes.id, false), deviceController.status)
@@ -54,7 +54,7 @@ privateRouter
     .post('/device/locations', validation(schemes.location), trackerController.addLocation)
     .put('/device/edit', onlyAdmin, validation(schemes.deviceEdit), deviceController.updateDeviceById)
     .post('/device/add-device', onlyAdmin, validation(schemes.device), deviceController.addDevice)
-    .delete('/device/delete', onlyAdmin, deviceController.deleteDevice)
+    .delete('/device/delete', onlyAdmin, validation(schemes.id, false), deviceController.deleteDevice)
 
         //users
     .get('/users', onlyAdmin, userController.users)

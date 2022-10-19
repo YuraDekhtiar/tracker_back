@@ -62,7 +62,7 @@ privateRouter
     .delete('/users/delete', onlyAdmin, validation(schemes.id, false), userController.deleteUser)
 
         // profile
-    .get('/profile', userController.profile)
+    .get('/profile', userController.currentUser)
     .put('/profile/change-pass', validation(schemes.changePassword), userController.changePassword)
 
 module.exports = {

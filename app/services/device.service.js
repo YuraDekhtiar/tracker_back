@@ -50,7 +50,7 @@ module.exports = {
             })
         })
     },
-    getDeviceById: async () => {
+    getDeviceById: async (id) => {
         return await Device.findOne({
             attributes: { exclude: ['password', 'refresh_token'] },
             where: {
@@ -72,9 +72,7 @@ module.exports = {
             password: password
         });
     },
-    updateDeviceById: async (ctx) => {
-        const {id, login, name, password} = ctx.request.body
-
+    updateDeviceById: async (id, login, name, password) => {
         const device = await Device.findOne({
             where: {
                 id: {
@@ -83,7 +81,6 @@ module.exports = {
                 login: login,
             }
         })
-        console.log(device)
         if(device) {
             ctx.body = {
                 message: "The login is already in use"
@@ -106,7 +103,7 @@ module.exports = {
         return Device.update(data, {
             where: {
                 id: id
-                }
+            }
         });
     },
     deleteDeviceById: async (id) => {

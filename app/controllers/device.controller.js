@@ -8,7 +8,8 @@ module.exports = {
         return next();
     },
     deviceById: async (ctx, next) => {
-        const {id} = ctx.query
+        const { id } = ctx.query
+            console.log(id)
         const device = await deviceService.getDeviceById(id);
 
         if(device) {
@@ -21,8 +22,11 @@ module.exports = {
         return next();
     },
     updateDeviceById: async (ctx, next) => {
-        const result = await deviceService.updateDeviceById(ctx);
-        if(result > 0) {
+        const {id, login, name, password} = ctx.request.body
+        const result = await deviceService.updateDeviceById(id, login, name, password);
+        if(result[0] > 0) {
+            console.log(result)
+
             ctx.body = {
                 message: "Updated"
             }

@@ -25,8 +25,6 @@ module.exports = {
         const {id, login, name, password} = ctx.request.body
         const result = await deviceService.updateDeviceById(id, login, name, password);
         if(result[0] > 0) {
-            console.log(result)
-
             ctx.body = {
                 message: "Updated"
             }

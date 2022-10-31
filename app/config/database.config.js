@@ -1,7 +1,6 @@
-const {Sequelize} = require("sequelize");
 module.exports = {
-    host: '195.238.180.33',
-    port: 33060,
+    host: '192.168.0.2',
+    port: 3306,
     user: 'admin',
     password: 'Password',
     //database: 'tracker',

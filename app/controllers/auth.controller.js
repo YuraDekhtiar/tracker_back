@@ -12,6 +12,7 @@ module.exports = {
             ctx.body = { message: 'Username or password incorrect' };
             ctx.status = 403;
         }
+
         return next();
     },
     refreshToken: async (ctx, next) => {

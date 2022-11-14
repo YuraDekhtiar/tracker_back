@@ -9,6 +9,7 @@ const Role = db.role;
 
 module.exports = {
     login: async (username, password) => {
+        username = username.toLowerCase();
         const user = await User.findOne({
             where: {
                 [Op.or]: [

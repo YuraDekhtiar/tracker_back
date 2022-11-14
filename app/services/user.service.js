@@ -32,8 +32,8 @@ module.exports = {
         return await User.findOne({
             where: {
                 [Op.or]: [
-                    {username: username},
-                    {email: email}
+                    {username: username.toLowerCase()},
+                    {email: email.toLowerCase()}
                 ]
             },
         });
@@ -44,8 +44,8 @@ module.exports = {
 
         await Promise.all([
             createdUser = await User.create({
-                username: username,
-                email: email,
+                username: username.toLowerCase(),
+                email: email.toLowerCase(),
                 password: password,
             }),
             roleId = await Role.findOne({
@@ -62,11 +62,22 @@ module.exports = {
 
         return createdUser;
     },
-    deleteById: async (id) => {
+    deleteUserById: async (id) => {
         return await User.destroy({
             where: {
                 id: id
             }
         })
+    },
+    changePassword: async (id, oldPassword, newPassword) => {
+        const user = await User.findOne({
+            where: {
+                id: id
+            }
+        });
+        if(user?.password !== oldPassword || !user)
+            return null
+        // return id when success
+        return await user.update({password: newPassword}).then(r => r.id)
     }
 }

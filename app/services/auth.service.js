@@ -42,16 +42,18 @@ module.exports = {
         }
         return null;
     },
-    refreshToken: async (user_id, refreshToken) => {
+    refreshToken: async (refreshToken) => {
         if (!await redis.get(refreshToken)) {
             return null;
         }
-        jwt.verify(refreshToken, refreshTokenSecret, (err) => {
+        let currentUser = null;
+        jwt.verify(refreshToken, refreshTokenSecret, async (err, decoded) => {
             if (err) {
                 throw new Error("Refresh token invalid signature")
             }
+            currentUser = {...decoded}
         })
-        await userService.lastVisitTimeStamp(user_id);
+        await userService.lastVisitTimeStamp(currentUser.id);
 
         return utils.updateToken(refreshToken);
     },

@@ -1,4 +1,3 @@
-const profileService = require("../services/profile.service")
 const userService = require("../services/user.service");
 
 module.exports = {
@@ -18,7 +17,7 @@ module.exports = {
     changePassword: async (ctx, next) => {
         const {id} = ctx.currentUser;
         const {oldPassword, newPassword} = ctx.request.body;
-        const res = await profileService.changePassword(id, oldPassword, newPassword);
+        const res = await userService.changePassword(id, oldPassword, newPassword);
 
         if(!res)  {
             ctx.body = {

@@ -79,5 +79,12 @@ module.exports = {
             return null
         // return id when success
         return await user.update({password: newPassword}).then(r => r.id)
+    },
+    lastVisitTimeStamp: async (id) => {
+        return await User.update({ last_visit: new Date() }, {
+            where: {
+                id: id
+            }
+        });
     }
 }

@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const {refreshTokenSecret} = require("../config/auth.config");
 const db = require("../models");
 const {Op} = require("sequelize");
+const userService = require("./user.service");
 const User = db.user;
 const Role = db.role;
 
@@ -31,6 +32,8 @@ module.exports = {
                 email: user.email,
                 roles: user.roles.map(r => r.name),
             }
+            await userService.lastVisitTimeStamp(user.id);
+
             return {
                 ...payload,
                 accessToken: utils.makeAccessToken(payload),
@@ -39,7 +42,7 @@ module.exports = {
         }
         return null;
     },
-    refreshToken: async (ctx, refreshToken) => {
+    refreshToken: async (user_id, refreshToken) => {
         if (!await redis.get(refreshToken)) {
             return null;
         }
@@ -48,6 +51,8 @@ module.exports = {
                 throw new Error("Refresh token invalid signature")
             }
         })
+        await userService.lastVisitTimeStamp(user_id);
+
         return utils.updateToken(refreshToken);
     },
     async logout(refreshToken) {

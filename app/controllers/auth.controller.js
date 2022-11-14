@@ -16,7 +16,7 @@ module.exports = {
     },
     refreshToken: async (ctx, next) => {
         const refreshToken = ctx.request.body.refreshToken || '';
-        const data = await auth.refreshToken(ctx.currentUser.id, refreshToken);
+        const data = await auth.refreshToken(ctx?.currentUser?.id, refreshToken);
 
         if(data) {
             ctx.body = data;

@@ -1,8 +1,4 @@
-const db = require("../models");
-const User = db.user;
-
 const profileService = require("../services/profile.service")
-const {Op} = require("sequelize");
 const userService = require("../services/user.service");
 
 module.exports = {
@@ -62,7 +58,7 @@ module.exports = {
     },
     deleteUser: async (ctx, next) => {
         const {id} = ctx.query
-        ctx.body = userService.deleteById(id)
+        ctx.body = userService.deleteUserById(id)
         ctx.status = 200;
 
         next();

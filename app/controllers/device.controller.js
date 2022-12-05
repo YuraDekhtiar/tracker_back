@@ -5,7 +5,7 @@ module.exports = {
         ctx.body = await deviceService.getDevices();
         ctx.status = 200;
 
-        next();
+        return next();
     },
     deviceById: async (ctx, next) => {
         const { id } = ctx.query;
@@ -18,7 +18,7 @@ module.exports = {
             ctx.body = { message: 'Device not found' };
             ctx.status = 404;
         }
-        next();
+        return next();
     },
     updateDeviceById: async (ctx, next) => {
         const {id, login, name, password} = ctx.request.body
@@ -29,7 +29,7 @@ module.exports = {
             }
         }
         ctx.status = 200;
-        next();
+        return next();
     },
     status: async (ctx, next) => {
         ctx.body = await deviceService.getDeviceStatus(ctx);
@@ -46,7 +46,7 @@ module.exports = {
         }
         ctx.status = 200;
 
-        next();
+        return next();
     },
     deleteDevice: async (ctx, next) => {
         const {id} = ctx.query;
@@ -54,6 +54,6 @@ module.exports = {
         ctx.body = await deviceService.deleteDeviceById(id);
         ctx.status = 200;
 
-        next();
+        return next();
     }
 }

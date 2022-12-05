@@ -5,6 +5,7 @@ const {refreshTokenSecret} = require("../config/auth.config");
 const db = require("../models");
 const {Op} = require("sequelize");
 const userService = require("./user.service");
+const bcrypt = require("bcrypt");
 const User = db.user;
 const Role = db.role;
 
@@ -24,8 +25,7 @@ module.exports = {
                 attributes: ['name']
             }]
         });
-
-        if ((username === user?.username || username === user?.email) && password === user?.password) {
+        if ((username === user?.username || username === user?.email) && bcrypt.compareSync(password, user?.password)) {
             const payload = {
                 id: user.id,
                 username: user.username,

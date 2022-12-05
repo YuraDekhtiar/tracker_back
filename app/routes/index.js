@@ -41,7 +41,7 @@ privateRouter
 
         }
         ctx.status = 200;
-        next();
+        return next();
     })
 
     // locations

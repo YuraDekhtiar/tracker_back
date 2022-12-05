@@ -4,16 +4,18 @@ const authUtil = require("../utils/auth.new.utils");
 const db = require("../models");
 const {Op} = require("sequelize");
 const Device = db.device;
+const bcrypt = require("bcrypt");
+const {saltRounds} = require("../constants")
 
 module.exports = {
     login: async (login, password) => {
         const device = await Device.findOne({
             where: {
                 login: login,
-                password: password
             },
         });
-        if(!device)
+
+        if(!device || !bcrypt.compareSync(password, device?.password))
             return null;
 
         return {
@@ -58,6 +60,7 @@ module.exports = {
             },
         })
     },
+        // потрібен рефакторинг коду
     addDevice: async (ctx) => {
         const {login, name, password} = ctx.request.body;
         if(await isExistDeviceLogin(login)) {
@@ -72,6 +75,7 @@ module.exports = {
             password: password
         });
     },
+        // потрібен рефакторинг коду
     updateDeviceById: async (id, login, name, password) => {
         const device = await Device.findOne({
             where: {
@@ -96,7 +100,7 @@ module.exports = {
         if(password) {
             data = {
                 ...data,
-                password: password
+                password: bcrypt.hashSync(password, saltRounds),
             }
         }
 
@@ -113,8 +117,9 @@ module.exports = {
             }
         })
     },
-    // переглянути для чого параметри
-    // передаються масивом
+        // потрібен рефакторинг коду
+        // переглянути для чого параметри
+        // передаються масивом
     getDeviceStatus: async (ctx) => {
         const id = util.toArray(ctx.query.id).map(item => {
             if (!Number.isNaN(Number.parseInt(item)))

@@ -1,8 +1,10 @@
 const db = require("../models");
 const {Op} = require("sequelize");
+const bcrypt = require("bcrypt")
 const User = db.user;
 const Role = db.role
 const UserRole = db.userRole
+const {saltRounds} = require("../constants")
 
 module.exports = {
     getAllUsers: async () => {
@@ -46,7 +48,7 @@ module.exports = {
             createdUser = await User.create({
                 username: username.toLowerCase(),
                 email: email.toLowerCase(),
-                password: password,
+                password: bcrypt.hashSync(password, saltRounds),
             }),
             roleId = await Role.findOne({
                 attributes: ['id'],
@@ -75,10 +77,11 @@ module.exports = {
                 id: id
             }
         });
-        if(user?.password !== oldPassword || !user)
+
+        if(!user || !bcrypt.compareSync(oldPassword, user?.password))
             return null
         // return id when success
-        return await user.update({password: newPassword}).then(r => r.id)
+        return await user.update({password: bcrypt.hashSync(newPassword, saltRounds)}).then(r => r.id)
     },
     lastVisitTimeStamp: async (id) => {
         return await User.update({ last_visit: new Date() }, {

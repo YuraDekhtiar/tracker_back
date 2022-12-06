@@ -37,14 +37,23 @@ module.exports = {
         return next();
     },
     addDevice: async (ctx, next) => {
-        const device = await deviceService.addDevice(ctx)
-        ctx.body = {
-            message: `Device was added`,
-            device: {
-                id: device.id,
+        const {login, name, password} = ctx.request.body;
+        const device = await deviceService.addDevice(login, name, password)
+
+        if(!device) {
+            ctx.body = {
+                message: "The login is already in use"
             }
+            ctx.status = 409;
+        } else {
+            ctx.body = {
+                message: `Device was added`,
+                device: {
+                    id: device.id,
+                }
+            }
+            ctx.status = 200;
         }
-        ctx.status = 200;
 
         return next();
     },

@@ -61,18 +61,15 @@ module.exports = {
         })
     },
         // потрібен рефакторинг коду
-    addDevice: async (ctx) => {
-        const {login, name, password} = ctx.request.body;
+    addDevice: async (login, name, password) => {
         if(await isExistDeviceLogin(login)) {
-            ctx.body = {
-                message: "The login is already in use"
-            }
-            ctx.throw(409);
+            return null;
         }
+
         return await Device.create({
             login: login,
             name: name,
-            password: password
+            password: bcrypt.hashSync(password, saltRounds),
         });
     },
         // потрібен рефакторинг коду

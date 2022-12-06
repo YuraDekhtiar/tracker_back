@@ -23,20 +23,18 @@ module.exports = {
     updateDeviceById: async (ctx, next) => {
         const {id, login, name, password} = ctx.request.body
         const result = await deviceService.updateDeviceById(id, login, name, password);
-        if(result[0] > 0) {
+        if(!result) {
+            ctx.body = {
+                message: "The login is already in use"
+            }
+            ctx.status = 409;
+        } else {
             ctx.body = {
                 message: "Updated"
             }
+            ctx.status = 200;
         }
-        ctx.status = 200;
-        return next();
-    },
-    status: async (ctx, next) => {
-        ctx.body = await deviceService.getDeviceStatus(ctx);
 
-
-
-        ctx.status = 200;
         return next();
     },
     addDevice: async (ctx, next) => {

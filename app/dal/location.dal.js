@@ -14,11 +14,6 @@ module.exports = {
             '${speed}', '${batteryLevel}', '${batteryTemp}', '${isCharging.toLowerCase() === 'true' ? 1 : 0}')
         `);
     },
-    getTimeLastConnection: async(id) => {
-        return await queryDB(`SELECT id, time_last_connection FROM devices WHERE id IN (?)`,
-            [id.map(i => [i])]
-            )
-    },
     updateTimeLastConnection: async(id) => {
         return await queryDB(`UPDATE devices SET time_last_connection = current_timestamp() WHERE id = ${id}`)
     },

@@ -1,5 +1,4 @@
 const DAL = require("../dal/location.dal");
-const {util} = require("../utils/index");
 const authUtil = require("../utils/auth.new.utils");
 const db = require("../models");
 const {Op} = require("sequelize");
@@ -71,7 +70,6 @@ module.exports = {
             password: bcrypt.hashSync(password, saltRounds),
         });
     },
-        // потрібен рефакторинг коду
     updateDeviceById: async (id, login, name, password) => {
         const device = await Device.findOne({
             where: {
@@ -82,10 +80,7 @@ module.exports = {
             }
         })
         if(device) {
-            ctx.body = {
-                message: "The login is already in use"
-            }
-            ctx.throw(409)
+            return null;
         }
 
         let data = {
@@ -113,28 +108,8 @@ module.exports = {
             }
         })
     },
-        // потрібен рефакторинг коду
-        // переглянути для чого параметри
-        // передаються масивом
-    getDeviceStatus: async (ctx) => {
-        const id = util.toArray(ctx.query.id).map(item => {
-            if (!Number.isNaN(Number.parseInt(item)))
-                return item
-            throw ctx.throw(500)
-        })
-
-        return await DAL.getTimeLastConnection(id).then(r => {
-            return r.map(item => {
-                return {
-                    id: item.id,
-                    is_online: deviceStatus(item.time_last_connection)
-                }
-            })
-        })
-    },
 
 }
-
 async function isExistDeviceLogin(login) {
     return await Device.findOne({
         where: {

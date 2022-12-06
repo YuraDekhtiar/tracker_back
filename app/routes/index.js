@@ -49,7 +49,6 @@ privateRouter
 
         // device
     .get('/devices', deviceController.devices)
-    .get('/devices/status', validation(schemes.id, false), deviceController.status)
     .get('/device', onlyAdmin, validation(schemes.id, false), deviceController.deviceById)
     .post('/device/locations', validation(schemes.location), trackerController.addLocation)
     .put('/device/edit', onlyAdmin, validation(schemes.deviceEdit), deviceController.updateDeviceById)

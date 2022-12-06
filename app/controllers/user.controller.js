@@ -6,13 +6,13 @@ module.exports = {
         ctx.body = await userService.getUserById(id)
         ctx.status = 200;
 
-        next();
+        return next();
     },
     users: async (ctx, next) => {
         ctx.body = await userService.getAllUsers();
         ctx.status = 200;
 
-        next();
+        return next();
     },
     changePassword: async (ctx, next) => {
         const {id} = ctx.currentUser;
@@ -29,7 +29,7 @@ module.exports = {
             ctx.status = 200;
         }
 
-        next();
+        return next();
     },
     createNewUser: async (ctx, next) => {
         const {username, email, password, role} = ctx.request.body
@@ -53,13 +53,13 @@ module.exports = {
             ctx.status = 200;
         }
 
-        next();
+        return next();
     },
     deleteUser: async (ctx, next) => {
         const {id} = ctx.query
         ctx.body = userService.deleteUserById(id)
         ctx.status = 200;
 
-        next();
+        return next();
     }
 }

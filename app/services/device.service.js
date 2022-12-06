@@ -60,7 +60,6 @@ module.exports = {
             },
         })
     },
-        // потрібен рефакторинг коду
     addDevice: async (login, name, password) => {
         if(await isExistDeviceLogin(login)) {
             return null;

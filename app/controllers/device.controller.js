@@ -33,6 +33,9 @@ module.exports = {
     },
     status: async (ctx, next) => {
         ctx.body = await deviceService.getDeviceStatus(ctx);
+
+
+
         ctx.status = 200;
         return next();
     },

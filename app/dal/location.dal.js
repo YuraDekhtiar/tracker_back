@@ -5,7 +5,9 @@ module.exports = {
         return await queryDB(`SELECT * FROM tracks`);
     },
     getLastLocation: async (id) => {
-        return await queryDB(`SELECT * FROM tracks WHERE device_id = ${id} ORDER BY time DESC LIMIT 1`)
+
+        return await queryDB(`SELECT *, (SELECT name FROM devices WHERE devices.id = ${id}) AS name 
+                                    FROM tracks WHERE device_id = ${id} ORDER BY time DESC LIMIT 1`)
     },
     addLocation: async ({id, time, latitude, longitude, speed, batteryLevel, batteryTemp, isCharging}) => {
         return await queryDB(`INSERT INTO tracks (device_id, time, coords, speed, battery_level,

@@ -2,9 +2,10 @@ const db = require("../models");
 const {Op} = require("sequelize");
 const bcrypt = require("bcrypt")
 const User = db.user;
-const Role = db.role
-const UserRole = db.userRole
-const {saltRounds} = require("../constants")
+const Role = db.role;
+const UserRole = db.userRole;
+const {saltRounds} = require("../constants");
+
 
 module.exports = {
     getAllUsers: async () => {

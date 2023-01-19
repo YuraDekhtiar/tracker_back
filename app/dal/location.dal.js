@@ -5,7 +5,6 @@ module.exports = {
         return await queryDB(`SELECT * FROM tracks`);
     },
     getLastLocation: async (id) => {
-
         return await queryDB(`SELECT *, (SELECT name FROM devices WHERE devices.id = ${id}) AS name 
                                     FROM tracks WHERE device_id = ${id} ORDER BY time DESC LIMIT 1`)
     },

@@ -1,3 +1,4 @@
+require('dotenv').config()
 const Koa = require('koa');
 const { PORT } = require('./config/server.config.js')
 const cors = require('koa-cors');

@@ -11,7 +11,7 @@ module.exports = {
         const data = {id: ctx.currentUser.id, ...ctx.request.body};
         const res = await trackerService.addLocation(data)
 
-        ctx.body = res.length
+        ctx.body = res.length === 2 ? "success" : "error"
         ctx.status = 200;
 
         return next();

@@ -1,4 +1,3 @@
-const DAL = require("../dal/location.dal");
 const authUtil = require("../utils/auth.new.utils");
 const db = require("../models");
 const {Op} = require("sequelize");
@@ -42,10 +41,14 @@ module.exports = {
         return await createNewToken(device)
     },
     getDevices: async () => {
-        return await DAL.getAllDevices().then(r => {
+        return await Device.findAll({
+            attributes: { exclude: ['password', 'refresh_token'] },
+
+            }
+        ).then(r => {
             return r.map(item => {
                 return {
-                    ...item,
+                    ...item.dataValues,
                     is_online: deviceStatus(item.time_last_connection)
                 }
             })

@@ -74,7 +74,7 @@ module.exports = {
             refresh_token: authUtil.makeRefreshToken(payload)
         }
         await updateToken(refreshToken, tokens.refresh_token);
-        console.log(payload)
+
         return {
             accessToken: tokens.access_token,
             refreshToken: tokens.refresh_token

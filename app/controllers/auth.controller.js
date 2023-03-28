@@ -1,4 +1,5 @@
-const auth = require('../services/auth.service')
+// const auth = require('../services/auth.service')
+const auth = require('../services/user_auth.service')
 
 module.exports = {
     login: async (ctx, next) => {

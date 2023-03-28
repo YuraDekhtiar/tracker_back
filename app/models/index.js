@@ -23,7 +23,7 @@ db.track = require("../models/track.model.js")(sequelize, DataTypes);
 db.device = require("../models/device.model.js")(sequelize, DataTypes);
 db.role = require("../models/role.model.js")(sequelize, DataTypes);
 db.userRole = require("../models/user_role.model.js")(sequelize, DataTypes, db.user, db.role);
-
+db.userAuthToken = require("../models/user_auth_token.model")(sequelize, DataTypes, db.user);
 
 module.exports = db;
 

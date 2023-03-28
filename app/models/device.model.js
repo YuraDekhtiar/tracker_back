@@ -1,4 +1,4 @@
-module.exports = (sequelize, DataTypes, track) => {
+module.exports = (sequelize, DataTypes) => {
     return sequelize.define("device", {
         id: {
             type: DataTypes.INTEGER.UNSIGNED,

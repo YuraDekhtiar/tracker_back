@@ -1,4 +1,4 @@
-const authUtil = require("../utils/auth.new.utils");
+const authUtil = require("../utils/auth.utils");
 const db = require("../models");
 const {Op} = require("sequelize");
 const Device = db.device;
@@ -41,17 +41,20 @@ module.exports = {
         return await createNewToken(device)
     },
     getDevices: async () => {
-        return await Device.findAll({
+        return await Device.findAndCountAll({
             attributes: { exclude: ['password', 'refresh_token'] },
 
             }
         ).then(r => {
-            return r.map(item => {
-                return {
-                    ...item.dataValues,
-                    is_online: deviceStatus(item.time_last_connection)
-                }
-            })
+            return {
+                totalCount: r.count,
+                devices: r.rows.map(item => {
+                    return {
+                        ...item.dataValues,
+                        is_online: deviceStatus(item.time_last_connection)
+                    }
+                }),
+            }
         })
     },
     getDeviceById: async (id) => {
@@ -111,7 +114,6 @@ module.exports = {
             }
         })
     },
-
 }
 async function isExistDeviceLogin(login) {
     return await Device.findOne({

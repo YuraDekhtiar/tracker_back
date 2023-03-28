@@ -6,16 +6,20 @@ const Role = db.role;
 const UserRole = db.userRole;
 const {saltRounds} = require("../constants");
 
-
 module.exports = {
     getAllUsers: async () => {
-        return await User.findAll({
+        return await User.findAndCountAll({
             attributes: { exclude: ['password'] },
             include:[{
                 model:Role,
                 through: {attributes:[]},
                 attributes: ['name'],
             }]
+        }).then(r => {
+            return {
+                totalCount: r.count,
+                users: r.rows
+            }
         })
     },
     getUserById: async (id) => {
@@ -84,11 +88,15 @@ module.exports = {
         // return id when success
         return await user.update({password: bcrypt.hashSync(newPassword, saltRounds)}).then(r => r.id)
     },
-    lastVisitTimeStamp: async (id) => {
-        return await User.update({ last_visit: new Date() }, {
-            where: {
-                id: id
-            }
-        });
-    }
+    lastVisitTimeStamp: async (id) => lastVisitTimeStamp(id)
 }
+
+
+async function lastVisitTimeStamp(id) {
+    return await User.update({ last_visit: new Date() }, {
+        where: {
+            id: id
+        }
+    })
+}
+

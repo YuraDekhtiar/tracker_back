@@ -33,8 +33,11 @@ module.exports = {
                 email: user.email,
                 roles: user.roles.map(r => r.name)
             };
-            await lastVisitTimeStamp(user.id);
-            const tokens = await createNewTokens(payload)
+            const tokens = createNewTokens(payload);
+            await Promise.all([
+                await addTokenDatabase(user.id, tokens.refresh_token),
+                await lastVisitTimeStamp(user.id)
+            ]);
 
             return {
                 ...payload,
@@ -52,48 +55,43 @@ module.exports = {
         })
     },
     refreshToken: async (refreshToken) => {
-        if (!await findToken(refreshToken)) {
-            return null;
-        }
+        let tokens = null;
 
-        let payload = null;
-        jwt.verify(refreshToken, refreshTokenSecret, async (err, decoded) => {
+        await jwt.verify(refreshToken, refreshTokenSecret, async (err, decoded) => {
             if (err) {
-                throw new Error("Refresh token invalid signature")
+                await UserAuthToken.destroy({
+                    where: {
+                        auth_token: refreshToken
+                    }
+                })
+                console.log(err);
+            } else if(await findToken(refreshToken) !== null){
+                const payload = {
+                    id: decoded.id,
+                    username: decoded.username,
+                    email: decoded.email,
+                    roles: decoded.roles
+                };
+                tokens = createNewTokens(payload)
+                await Promise.all([
+                    await userService.lastVisitTimeStamp(payload.id),
+                    await updateTokenDatabase(refreshToken, tokens.refresh_token)
+                ]);
             }
-            payload = {
-                id: decoded.id,
-                username: decoded.username,
-                email: decoded.email,
-                roles: decoded.roles
-            };
-        })
-        await userService.lastVisitTimeStamp(payload.id);
-        const tokens = {
-            access_token: authUtil.makeAccessToken(payload),
-            refresh_token: authUtil.makeRefreshToken(payload)
-        }
-        await updateToken(refreshToken, tokens.refresh_token);
 
-        return {
-            accessToken: tokens.access_token,
-            refreshToken: tokens.refresh_token
-        }
+        })
+        return tokens;
     },
 }
 
-async function createNewTokens(payload) {
-    const refreshToken = authUtil.makeRefreshToken(payload);
-
-    await addNewTokenToDatabase(payload.id, refreshToken)
-
+function createNewTokens(payload) {
     return {
         access_token: authUtil.makeAccessToken(payload),
-        refresh_token: refreshToken
+        refresh_token: authUtil.makeRefreshToken(payload)
     }
 }
 
-async function addNewTokenToDatabase(userId, refreshToken) {
+async function addTokenDatabase(userId, refreshToken) {
     const maxTotalTokens = 5;
     const data = await UserAuthToken.findAndCountAll({
         where: {
@@ -106,30 +104,17 @@ async function addNewTokenToDatabase(userId, refreshToken) {
         }
     })
 
-    if(data.totalTokens < maxTotalTokens) {
-        await addTokenToDatabase(userId, refreshToken)
-    } else {
+    if(data.totalTokens > maxTotalTokens) {
         await deleteAllTokensByUserId(data.tokens.map(item => item.id))
-        await addTokenToDatabase(userId, refreshToken)
     }
-}
 
-async function addTokenToDatabase(userId, refreshToken) {
     return await UserAuthToken.create({
         user_id: userId,
         auth_token: refreshToken,
     });
 }
 
-async function deleteAllTokensByUserId(userIds) {
-    return await UserAuthToken.destroy({
-        where: {
-            id: userIds
-        }
-    })
-}
-
-async function updateToken(oldToken, newToken) {
+async function updateTokenDatabase(oldToken, newToken) {
     return await UserAuthToken.update({
             auth_token: newToken
         },
@@ -139,6 +124,14 @@ async function updateToken(oldToken, newToken) {
             }
         }
     )
+}
+
+async function deleteAllTokensByUserId(userIds) {
+    return await UserAuthToken.destroy({
+        where: {
+            id: userIds
+        }
+    })
 }
 
 async function findToken(token) {

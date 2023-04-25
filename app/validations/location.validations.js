@@ -1,7 +1,6 @@
 module.exports = (Joi) => Joi.object()
     .keys({
         time: Joi.date()
-            .max('now')
             .required(),
         latitude: Joi.number()
             .min(-90)

@@ -16,6 +16,6 @@ module.exports = {
         `);
     },
     updateTimeLastConnection: async(id) => {
-        return await queryDB(`UPDATE devices SET time_last_connection = current_timestamp() WHERE id = ${id}`)
+        return await queryDB(`UPDATE devices SET time_last_connection = UTC_TIMESTAMP() WHERE id = ${id}`)
     },
 }

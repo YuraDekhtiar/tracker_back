@@ -3,8 +3,8 @@ module.exports = {
     port: 3306,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
-    database: 'trackertest',
-    databaseSequelize: 'trackertest',
+    database: 'tracker_develop',
+    databaseSequelize: 'tracker_develop',
 
     dialect: "mariadb",
     pool: {

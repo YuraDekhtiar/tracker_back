@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER.UNSIGNED,
             primaryKey: true,
             allowNull: false,
+            autoIncrement: true,
             references: {
                 model: 'devices',
                 key: 'id',

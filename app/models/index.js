@@ -24,6 +24,9 @@ db.device = require("../models/device.model.js")(sequelize, DataTypes);
 db.role = require("../models/role.model.js")(sequelize, DataTypes);
 db.userRole = require("../models/user_role.model.js")(sequelize, DataTypes, db.user, db.role);
 db.userAuthToken = require("../models/user_auth_token.model")(sequelize, DataTypes, db.user);
+db.group = require("../models/group.model")(sequelize, DataTypes);
+db.groupUser = require("./group_user.model")(sequelize, DataTypes, db.group, db.user);
+db.groupDevice = require("./group_device.model")(sequelize, DataTypes, db.group, db.device);
 
 module.exports = db;
 

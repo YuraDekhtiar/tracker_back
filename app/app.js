@@ -5,7 +5,7 @@ const cors = require('koa-cors');
 const bodyParser = require('koa-bodyparser');
 const db = require("./models");
 const errorHandler = require('./middlewares/error.middleware');
-const { privateRouter, publicRouter } = require('./routes/index');
+const { publicRouter, privateRouter } = require('./routes/index');
 
 const app = new Koa();
 app.use(errorHandler);

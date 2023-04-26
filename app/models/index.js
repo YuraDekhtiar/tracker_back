@@ -17,6 +17,7 @@ const sequelize = new Sequelize(config.databaseSequelize, config.user, config.pa
 
 db.sequelize = sequelize;
 db.Sequelize = DataTypes;
+
 // Models
 db.user = require("../models/user.model.js")(sequelize, DataTypes);
 db.track = require("../models/track.model.js")(sequelize, DataTypes);

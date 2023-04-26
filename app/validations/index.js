@@ -1,15 +1,16 @@
 const Joi = require("joi");
 const schemes = {}
 
-schemes.login = require('./login.validations')(Joi)
-schemes.loginDevice = require('./login_device.validations')(Joi)
-schemes.token = require('./token.validations')(Joi)
-schemes.location = require('./location.validations')(Joi)
-schemes.createNewUser = require('./create_new_user.validations')(Joi)
-schemes.id = require('./id.validations')(Joi)
-schemes.changePassword = require('./change_password.validations')(Joi)
-schemes.device = require('./device.validations')(Joi)
-schemes.deviceEdit = require('./device_edit.validations')(Joi)
+schemes.login = require('./login.validation')(Joi)
+schemes.loginDevice = require('./login_device.validation')(Joi)
+schemes.token = require('./token.validation')(Joi)
+schemes.location = require('./location.validation')(Joi)
+schemes.createNewUser = require('./create_new_user.validation')(Joi)
+schemes.id = require('./id.validation')(Joi)
+schemes.changePassword = require('./change_password.validation')(Joi)
+schemes.device = require('./device.validation')(Joi)
+schemes.deviceEdit = require('./device_edit.validation')(Joi)
+schemes.createGroup = require('./create_new_group.validation')(Joi)
 
 module.exports = schemes;
 

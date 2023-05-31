@@ -2,8 +2,11 @@ const authUtil = require("../utils/auth.utils");
 const db = require("../models");
 const {Op} = require("sequelize");
 const Device = db.device;
+const GroupDevice = db.groupDevice;
+
 const bcrypt = require("bcrypt");
 const {saltRounds} = require("../constants")
+const {deviceDal} = require("../dal");
 
 module.exports = {
     login: async (login, password) => {
@@ -13,14 +16,10 @@ module.exports = {
             },
         });
 
-        if(!device || !bcrypt.compareSync(password, device?.password))
-            return null;
+        if (!device || !bcrypt.compareSync(password, device?.password)) return null;
 
         return {
-            id: device.id,
-            login: device.login,
-            name: device.name,
-            ...await createNewToken(device)
+            id: device.id, login: device.login, name: device.name, ...await createNewToken(device)
         }
     },
     logout: async (refreshToken) => {
@@ -31,49 +30,53 @@ module.exports = {
         })
     },
     refreshToken: async (refreshToken) => {
-        const device =  await Device.findOne({
+        const device = await Device.findOne({
             where: {
                 refresh_token: refreshToken
             }
         })
-        if(!device)
-            return null;
+        if (!device) return null;
         return await createNewToken(device)
-    },
+    }, // All devices in database only for ADMIN
     getDevices: async () => {
         return await Device.findAndCountAll({
-            attributes: { exclude: ['password', 'refresh_token'] },
-
-            }
-        ).then(r => {
+            attributes: {exclude: ['password', 'refresh_token']},
+        }).then(r => {
             return {
-                totalCount: r.count,
-                devices: r.rows.map(item => {
+                totalCount: r.count, devices: r.rows.map(item => {
                     return {
-                        ...item.dataValues,
-                        is_online: deviceStatus(item.time_last_connection)
+                        ...item.dataValues, is_online: deviceStatus(item.time_last_connection)
                     }
                 }),
             }
         })
     },
+    getAllDevicesByUserId: async (userId) => {
+        const devices = await deviceDal.getAllDevicesByUserId(userId).then(r => r.map(item => {
+            return {
+                name: item.name, id: item.id, login: item.login,
+                time_last_connection: item.time_last_connection,
+                group_id: item.group_id
+            }
+        }))
+        return {
+            totalCount: devices.length, devices: devices
+        }
+    },
     getDeviceById: async (id) => {
         return await Device.findOne({
-            attributes: { exclude: ['password', 'refresh_token'] },
-            where: {
+            attributes: {exclude: ['password', 'refresh_token']}, where: {
                 id: id
             },
         })
     },
     addDevice: async (login, name, password) => {
-        if(await isExistDeviceLogin(login)) {
+        if (await isExistDeviceLogin(login)) {
             return null;
         }
 
         return await Device.create({
-            login: login,
-            name: name,
-            password: bcrypt.hashSync(password, saltRounds),
+            login: login, name: name, password: bcrypt.hashSync(password, saltRounds),
         });
     },
     updateDeviceById: async (id, login, name, password) => {
@@ -81,23 +84,20 @@ module.exports = {
             where: {
                 id: {
                     [Op.ne]: id
-                },
-                login: login,
+                }, login: login,
             }
         })
-        if(device) {
+        if (device) {
             return null;
         }
 
         let data = {
-            login: login,
-            name: name
+            login: login, name: name
         }
 
-        if(password) {
+        if (password) {
             data = {
-                ...data,
-                password: bcrypt.hashSync(password, saltRounds),
+                ...data, password: bcrypt.hashSync(password, saltRounds),
             }
         }
 
@@ -114,7 +114,16 @@ module.exports = {
             }
         })
     },
+    getAllDevicesOutGroup: async (id) => {
+        const devices = await deviceDal.getAllDeviceOutGroup(id).then(r => r.map(item => {
+            return {name: item.name, id: item.id}
+        }))
+        return {
+            totalCount: devices.length, users: devices
+        }
+    },
 }
+
 async function isExistDeviceLogin(login) {
     return await Device.findOne({
         where: {
@@ -129,19 +138,17 @@ function deviceStatus(time) {
 
 async function createNewToken(device) {
     const payload = {
-        id: device.id,
-        login: device.login,
-        name: device.name
+        id: device.id, login: device.login, name: device.name
     }
     const refreshToken = authUtil.makeRefreshToken(payload);
     await Device.update({
-        refresh_token: refreshToken}, {
+        refresh_token: refreshToken
+    }, {
         where: {
             id: device.id
         }
     });
     return {
-        access_token: authUtil.makeAccessToken(payload),
-        refresh_token: refreshToken
+        access_token: authUtil.makeAccessToken(payload), refresh_token: refreshToken
     }
 }

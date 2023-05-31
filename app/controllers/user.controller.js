@@ -61,5 +61,12 @@ module.exports = {
         ctx.status = 200;
 
         return next();
+    },
+    usersOutGroup: async (ctx, next) => {
+        const {id} = ctx.query
+        ctx.body = await userService.getAllUsersOutGroup(id);
+        ctx.status = 200;
+
+        return next();
     }
 }

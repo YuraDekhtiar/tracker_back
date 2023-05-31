@@ -12,5 +12,8 @@ userRouter
     .delete('/users/delete', onlyAdmin, validation(schemes.id, false), userController.deleteUser)
     .get('/profile', userController.currentUser)
     .put('/profile/change-pass', validation(schemes.changePassword), userController.changePassword)
+    // Get all users without current group
+    .get('/user/users-out-group', onlyAdmin, validation(schemes.id, false), userController.usersOutGroup)
+
 
 module.exports = userRouter.routes();

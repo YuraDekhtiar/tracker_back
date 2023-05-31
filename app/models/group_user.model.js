@@ -11,13 +11,15 @@ module.exports = (sequelize, DataTypes, group, user) => {
     user.belongsToMany(group, {
         through: Group_user,
         foreignKey: 'user_id',
-        otherKey: 'group_id'
+        otherKey: 'group_id',
+        allowNull: false,
     });
 
     group.belongsToMany(user, {
         through: Group_user,
         foreignKey: 'group_id',
-        otherKey: 'user_id'
+        otherKey: 'user_id',
+        allowNull: false,
     });
 
     return Group_user;

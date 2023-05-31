@@ -22,6 +22,5 @@ module.exports = async (ctx, next) => {
       route: `< ${ctx.url} >`
     };
     console.error(`STATUS -> ${ctx.status}, MESSAGE -> ${err.message}, ROUTE -> ${ctx.url} `);
-    //console.log(err);
   }
 };

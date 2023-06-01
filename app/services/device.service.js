@@ -2,7 +2,6 @@ const authUtil = require("../utils/auth.utils");
 const db = require("../models");
 const {Op} = require("sequelize");
 const Device = db.device;
-
 const bcrypt = require("bcrypt");
 const {saltRounds} = require("../constants")
 const {deviceDal} = require("../dal");
@@ -36,7 +35,8 @@ module.exports = {
         })
         if (!device) return null;
         return await createNewToken(device)
-    }, // All devices in database only for ADMIN
+    },
+    // All devices in database only for ADMIN
     getDevices: async () => {
         return await Device.findAndCountAll({
             attributes: {exclude: ['password', 'refresh_token']},
@@ -55,8 +55,8 @@ module.exports = {
             return {
                 id: item.id, login: item.login,
                 name: item.name, group_id: item.group_id,
-                time_last_connection: item.time_last_connection_convert,
-                is_online: deviceStatus(item.time_last_connection)
+                time_last_connection: item.time_last_connection,
+                is_online: deviceStatus(item.id, item.time_last_connection)
             }
         }))
         return {
@@ -132,7 +132,7 @@ async function isExistDeviceLogin(login) {
     })
 }
 
-function deviceStatus(time) {
+function deviceStatus(id, time) {
     return (Date.now() - time) / 1000 <= 60
 }
 

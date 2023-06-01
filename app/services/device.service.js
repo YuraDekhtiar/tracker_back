@@ -56,7 +56,7 @@ module.exports = {
                 id: item.id, login: item.login,
                 name: item.name, group_id: item.group_id,
                 time_last_connection: item.time_last_connection,
-                is_online: deviceStatus(item.id, item.time_last_connection)
+                is_online: deviceStatus(item.time_last_connection)
             }
         }))
         return {

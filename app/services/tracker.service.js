@@ -1,5 +1,4 @@
 const DAL = require("../dal/location.dal");
-const {INTEGER} = require("sequelize");
 
 module.exports = {
     getAllLocation: () => DAL.getAllLocation(),
@@ -8,8 +7,8 @@ module.exports = {
     },
     addLocation: (data) => {
         return Promise.all([
-            DAL.updateTimeLastConnection(data.id),
-            DAL.addLocation(data)
+            DAL.addLocation(data),
+            DAL.updateTimeLastConnection(data.id)
         ])
     },
 }

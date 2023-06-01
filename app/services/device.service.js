@@ -2,7 +2,6 @@ const authUtil = require("../utils/auth.utils");
 const db = require("../models");
 const {Op} = require("sequelize");
 const Device = db.device;
-const GroupDevice = db.groupDevice;
 
 const bcrypt = require("bcrypt");
 const {saltRounds} = require("../constants")
@@ -54,9 +53,10 @@ module.exports = {
     getAllDevicesByUserId: async (userId) => {
         const devices = await deviceDal.getAllDevicesByUserId(userId).then(r => r.map(item => {
             return {
-                name: item.name, id: item.id, login: item.login,
-                time_last_connection: item.time_last_connection,
-                group_id: item.group_id
+                id: item.id, login: item.login,
+                name: item.name, group_id: item.group_id,
+                time_last_connection: item.time_last_connection_convert,
+                is_online: deviceStatus(item.time_last_connection)
             }
         }))
         return {

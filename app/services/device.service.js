@@ -132,7 +132,7 @@ async function isExistDeviceLogin(login) {
     })
 }
 
-function deviceStatus(id, time) {
+function deviceStatus(time) {
     return (Date.now() - time) / 1000 <= 60
 }
 

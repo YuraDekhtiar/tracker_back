@@ -16,6 +16,13 @@ module.exports = {
 
         return next();
     },
+    logout: async (ctx, next) => {
+        const refreshToken = ctx.request.body.refreshToken || '';
+        ctx.body = await auth.logout(refreshToken);
+        ctx.status = 200;
+
+        return next();
+    },
     refreshToken: async (ctx, next) => {
         const refreshToken = ctx.request.body.refreshToken || '';
         const data = await auth.refreshToken(refreshToken);
@@ -28,13 +35,5 @@ module.exports = {
         }
 
         return next();
-    },
-    logout: async (ctx, next) => {
-        const refreshToken = ctx.request.body.refreshToken || '';
-        ctx.body = await auth.logout(refreshToken);
-        ctx.status = 200;
-
-        return next();
     }
-
 }

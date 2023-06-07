@@ -34,6 +34,7 @@ module.exports = {
                 roles: user.roles.map(r => r.name)
             };
             const tokens = createNewTokens(payload);
+
             await Promise.all([
                 await addTokenDatabase(user.id, tokens.refresh_token),
                 await lastVisitTimeStamp(user.id)

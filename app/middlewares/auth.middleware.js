@@ -7,7 +7,7 @@ module.exports = async (ctx, next) => {
     ctx.throw(403);
   }
 
-  await jwt.verify(accessToken, tokenSecret, async (err, decoded) => {
+  await jwt.verify(accessToken, tokenSecret, { }, async (err, decoded) => {
     if (err) {
       ctx.throw(401);
     }

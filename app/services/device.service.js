@@ -65,7 +65,8 @@ module.exports = {
     },
     getDeviceById: async (id) => {
         return await Device.findOne({
-            attributes: {exclude: ['password', 'refresh_token']}, where: {
+            attributes: {exclude: ['password', 'refresh_token']},
+            where: {
                 id: id
             },
         })

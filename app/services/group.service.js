@@ -1,5 +1,4 @@
 const db = require("../models");
-const {where} = require("sequelize");
 const Group = db.group;
 const GroupUser = db.groupUser;
 const GroupDevice = db.groupDevice;
@@ -16,29 +15,39 @@ module.exports = {
     },
     groupsCurrentUser: async (userId) => {
         return await Group.findAndCountAll({
-            where: {
-                user_id: userId
-            }
+            include: [
+                {
+                    model: db.user,
+                    attributes: [],
+                    where: {
+                        id: userId
+                    },
+                },
+            ],
+            attributes: ['id', 'name'],
         }).then(r => {
-            return {
-                totalCount: r.count,
-                groups: r.rows.map(item => item)
+                return {
+                    totalCount: r.count,
+                    groups: r.rows.map(item => item)
+                }
             }
-        })
+        )
     },
     groupById: async (id) => {
         return await Group.findOne({
             where: {
                 id: id
             },
-            include: [{
-                model: db.device,
-                attributes: ['id', 'name'],
-            },
+            include: [
+                {
+                    model: db.device,
+                    attributes: ['id', 'name']
+                },
                 {
                     model: db.user,
-                    attributes: ['id', 'username'],
-                }],
+                    attributes: ['id', 'username']
+                }
+            ],
         })
     },
     createGroup: async (name, description) => {

@@ -7,7 +7,6 @@ module.exports = {
 
         return next();
     },
-        // дописати даний метод
     groupsCurrentUser: async (ctx, next) => {
         const {id} = ctx.currentUser
         ctx.body = await groupService.groupsCurrentUser(id);

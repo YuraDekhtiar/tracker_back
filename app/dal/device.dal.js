@@ -12,4 +12,9 @@ module.exports = {
             (SELECT group_id FROM group_users WHERE user_id = ${userId}) GROUP BY de.id
         `)
     },
+    deviceToCurrentUser: async (userId, deviceId) => {
+        return await queryDB(`SELECT * FROM group_users AS gu JOIN group_devices AS gs 
+            ON gu.group_id = gs.group_id WHERE gu.user_id = ${userId} AND gs.device_id = ${deviceId}
+        `)
+    }
 }

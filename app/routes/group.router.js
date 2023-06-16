@@ -8,7 +8,6 @@ const groupRouter = new Router().prefix('/group');
 
 groupRouter
     .get('/groups', onlyAdmin, groupController.groups)
-    // ДОПИСАТИ КОНТРОЛЕР І СЕРВІС
     .get('/groups-current-user', groupController.groupsCurrentUser)
     .get('/', onlyAdmin, validation(schemes.id, false), groupController.groupById)
     .post('/create', onlyAdmin, validation(schemes.createGroup), groupController.createGroup)

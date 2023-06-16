@@ -11,6 +11,7 @@ const deviceRouter = new Router().prefix('/device');
 deviceRouter
     .get('/devices', deviceController.devices)
     .get('/', onlyAdmin, validation(schemes.id, false), deviceController.deviceById)
+    // Need move to location route, change route in Android app
     .post('/locations', validation(schemes.location), trackerController.addLocation)
     .put('/edit', onlyAdmin, validation(schemes.deviceEdit), deviceController.updateDeviceById)
     .post('/add-device', onlyAdmin, validation(schemes.device), deviceController.addDevice)

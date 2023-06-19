@@ -4,6 +4,7 @@ const {Op} = require("sequelize");
 const bcrypt = require("bcrypt")
 const User = db.user;
 const Role = db.role;
+const Group = db.group;
 const UserRole = db.userRole;
 const {saltRounds} = require("../constants");
 
@@ -22,9 +23,10 @@ module.exports = {
         return await User.findOne({
             where: {
                 id: id
-            }, attributes: {exclude: ['password']}, include: [{
-                model: Role, through: {attributes: []}, attributes: ['name'],
-            }]
+            }, attributes: {exclude: ['password']}, include: [
+                { model: Role, through: {attributes: []}, attributes: ['id','name'] },
+                { model: Group, through: {attributes: []}, attributes: ['id','name'] }
+            ]
         })
     }, getUserByNameOrEmail: async (username, email) => {
         return await User.findOne({

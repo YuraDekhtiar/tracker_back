@@ -19,7 +19,8 @@ module.exports = {
                 totalCount: r.count, users: r.rows
             }
         })
-    }, getUserById: async (id) => {
+    },
+    getUserById: async (id) => {
         return await User.findOne({
             where: {
                 id: id
@@ -28,13 +29,15 @@ module.exports = {
                 { model: Group, through: {attributes: []}, attributes: ['id','name'] }
             ]
         })
-    }, getUserByNameOrEmail: async (username, email) => {
+    },
+    getUserByNameOrEmail: async (username, email) => {
         return await User.findOne({
             where: {
                 [Op.or]: [{username: username.toLowerCase()}, {email: email.toLowerCase()}]
             },
         });
-    }, createUser: async (username, email, password, role) => {
+    },
+    createUser: async (username, email, password, role) => {
         let createdUser;
         let roleId;
 
@@ -52,13 +55,15 @@ module.exports = {
         });
 
         return createdUser;
-    }, deleteUserById: async (id) => {
+    },
+    deleteUserById: async (id) => {
         return await User.destroy({
             where: {
                 id: id
             }
         })
-    }, changePassword: async (id, oldPassword, newPassword) => {
+    },
+    changePassword: async (id, oldPassword, newPassword) => {
         const user = await User.findOne({
             where: {
                 id: id
